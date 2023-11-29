@@ -6,17 +6,17 @@ using namespace std;
 #define ull unsigned long long
 #define fi first
 #define se second
-#define ii pair<int, int>
+#define pii pair<ll, ll>
 #define vt vector
 #define pub push_back
 #define all(s) (s).begin(), (s).end()
 #define sz(s) (int)(s).size()
 #define sqr(x) (x) * (x)
-#define reset(f, v) memset(f, v, sizeof f)
-#define FORC(i, a, b, s) for (__typeof(a) i = (a), _b = (b); (s)>0 ? i<=_b : i>=_b; i += (s))
+#define FORC(i, a, b, s) for (__typeof(a) i=(a); (s)>0 ? i<=(b) : i>=(b); i+=(s))
 #define FOR(i, a, b) FORC(i, a, b, 1)
 #define FORD(i, a, b) FORC(i, a, b, -1)
 #define file(name) if (fopen(name".inp", "r")) { freopen(name".inp", "r", stdin); freopen(name".out", "w", stdout); }
+#define tinhnopro signed main
 
 template<class T> bool umin(T& a, const T& b)
 {
@@ -28,14 +28,30 @@ template<class T> bool umax(T& a, const T& b)
 }
 
 const ll oo  = 1e18;
-const int INF = 2e9 + 1e8 + 1e7;
+const int INF = 1e9 + 1e8 + 1e7;
 const int MOD = 1e9 + 7;
 const int mxN  = 1e6 + 11;
 
+int a[mxN], dp[mxN], n;
 
-signed main()
+tinhnopro()
 {
         ios_base::sync_with_stdio(0);
         cin.tie(0);
+        // file("KEK");
         |
 }
+
+/*
+==================================================+
+INPUT                                             |
+--------------------------------------------------|
+
+--------------------------------------------------|
+==================================================+
+OUTPUT                                            |
+--------------------------------------------------|
+
+--------------------------------------------------|
+==================================================+
+*/
