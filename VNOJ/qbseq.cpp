@@ -27,12 +27,24 @@ template<class T> bool umax(T& a, const T& b) {
 const ll oo  = 1e18;
 const int INF = 2e9 + 1e8 + 1e7;
 const int MOD = 1e9 + 7;
-const int mxN  = 1e6 + 11;
+const int mxN  = 1e3 + 11, mxK = 55;
 
+int a[mxN], dp[mxN][mxK], n, k;
 
 tinhnopro() {
         ios_base::sync_with_stdio(false);
         cin.tie(0); cout.tie(0);
 //        file("KEK");
-        |
+        cin >> n >> k;
+        FOR(i, 1, n) {
+                cin >> a[i];
+                a[i] %= k;
+        }
+        memset(dp[1], -0x3f, sizeof dp[1]);
+        dp[1][0] = 0;
+        dp[1][a[1]] = 1;
+        FOR(i, 2, n) FOR(j, 0, k-1) {
+                dp[i][j] = max(dp[i-1][j], dp[i-1][(j-a[i]+k) % k] + 1);
+        }
+        cout << dp[n][0];
 }

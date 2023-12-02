@@ -28,11 +28,33 @@ const ll oo  = 1e18;
 const int INF = 2e9 + 1e8 + 1e7;
 const int MOD = 1e9 + 7;
 const int mxN  = 1e6 + 11;
+const string NAME = "GCD";
 
+mt19937_64 rdg(chrono::steady_clock::now().time_since_epoch().count());
+
+ll Rand(ll low, ll hight) {
+        assert(low <= hight);
+        return l + rdg() % (hight - low + 1);
+}
 
 tinhnopro() {
         ios_base::sync_with_stdio(false);
         cin.tie(0); cout.tie(0);
 //        file("KEK");
-        |
+        int test;
+        cin >> test;
+        FOR(i, 1, test) {
+                ofstream inp((NAME + ".inp").c_str());
+                // Gen test
+
+                // End
+                inp.close();
+                system((NAME + ".exe").c_str());
+                system((NAME + "_gen.exe").c_str());
+                if (system(("fc" + NAME + ".out" + NAME + "_gen.out").c_str()) != 0) {
+                        cout << "WRONG\n";
+                        return 0;
+                }
+                cout << "CORRECT\n";
+        }
 }

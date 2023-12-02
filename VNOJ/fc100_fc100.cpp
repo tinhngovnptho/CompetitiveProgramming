@@ -34,5 +34,12 @@ tinhnopro() {
         ios_base::sync_with_stdio(false);
         cin.tie(0); cout.tie(0);
 //        file("KEK");
-        |
+        string s;
+        while (getline(cin, s)) {
+                if (s == "Free Contest 100") {
+                        cout << "Let's start!";
+                        break;
+                }
+                cout << "Wait\n";
+        }
 }
