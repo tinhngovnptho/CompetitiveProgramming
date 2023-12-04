@@ -38,12 +38,56 @@ const int MOD = 1e9 + 7;
 const int mxN  = 2e5 + 11;
 const int mxVal = 1e6 + 11;
 
+bool prime[mxVal+1];
+
+void sieve()
+{
+	memset(prime, 1, sizeof prime);
+	FOR(i, 2, sqrt(mxVal)) if (prime[i]) FOR(j, i, mxVal / i) prime[i*j] = 0;
+}
+
+bool isPrime(ll x)
+{
+	FOR(i, 2, sqrt(x)) if (x % i == 0) return false;
+	return x > 1;
+}
+
+void check(ll p, ll n)
+{
+	ll q = 0;
+	while (n % p == 0)
+	{
+		n /= p;
+		q++;
+	}
+	if (n == 1 && q > 2)
+	{
+		cout << p << " " << q;
+		exit(0);
+	}
+}
 
 tinhnopro()
 {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 //	file("KEK");
-	|
+	ll n;
+	cin >> n;
+	ll lim = sqrt(n);
+	if (lim * lim == n && isPrime(lim))
+	{
+		cout << lim << " " << 2;
+		exit(0);
+	}
+	sieve();
+	FOR(p, (ll) 2, mxVal)
+	{
+		if (n % p == 0 && prime[p])
+		{
+			check(p, n);
+		}
+	}
+	cout << 0;
 }
 
 
