@@ -12,17 +12,23 @@ using namespace std;
 #define pub push_back
 #define all(s) (s).begin(), (s).end()
 #define sz(s) (int)(s).size()
-#define sqr(x) (x) * (x)
+#define sqr(x) (ll) (x) * (x)
 #define LOG2(n) (31 - __builtin_clz(n))
-#define FORC(i, a, b, s) for (__typeof(a) i=(a), _b = (b); (s)>0 ? i<=_b : i>=_b; i+=(s))
-#define FOR(i, a, b) FORC(i, a, b, 1)
-#define FORD(i, a, b) FORC(i, a, b, -1)
+#define FOR(i, a, b) for (__typeof(a) i = (a), _b = (b); i <= _b; ++i)
+#define FORD(i, b, a) for (__typeof(a) i = (b), _a = (a); i >= _a; --i)
+#define REP(i, a) FOR(i, 0, a-1)
+#define REPN(i, a) FOR(i, 1, a)
 #define file(name) if (fopen(name".inp", "r")) { freopen(name".inp", "r", stdin); freopen(name".out", "w", stdout); }
 #define tinhnopro signed main
 
+#if __cplusplus >= 201103L
 mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 template <class T> T Rand(T l, T h) { return uniform_int_distribution <T> (l, h) (rng); }
 template <class T> T Rand(T h) { return uniform_int_distribution <T> (0, h - 1) (rng); }
+#else
+#define Rand(a, b) (a) + rand() % ((b) - (a) + 1)
+#define Rand(a) rand() % a
+#endif // __cplusplus
 
 template<class T> bool umin(T& a, const T& b) { return a > b ? a = b, 1 : 0; }
 template<class T> bool umax(T& a, const T& b) { return a < b ? a = b, 1 : 0; }
@@ -37,7 +43,7 @@ tinhnopro()
 {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 //	file("KEK");
-	|
+
 }
 
 
