@@ -23,11 +23,35 @@ const int MOD = 1e9 + 7;
 const int mxN  = 2e5 + 11;
 const int mxVal = 1e6 + 11;
 
+vt<int> adj[mxN];
+bool visited[mxN];
+
+void dfs(int u) {
+	visited[u] = true;
+	FOR(i, 0, sz(adj[u])-1) {
+		int v = adj[u][i];
+		if (!visited[v]) dfs(v);
+	}
+}
 
 signed main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	file("");
-	|
+	int n, m, x, y;
+	cin >> n >> m;
+	FOR(i, 1, m) {
+		cin >> x >> y;
+		adj[x].push_back(y);
+		adj[y].push_back(x);
+	}
+	int cnt = 0;
+	FOR(i, 1, n) {
+		if (!visited[i]) {
+			dfs(i);
+			cnt++;
+		}
+	}
+	cout << cnt-1;
 }
 
 

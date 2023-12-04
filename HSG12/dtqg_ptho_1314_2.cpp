@@ -23,11 +23,20 @@ const int MOD = 1e9 + 7;
 const int mxN  = 2e5 + 11;
 const int mxVal = 1e6 + 11;
 
+int n, x, cnt[mxVal];
 
 signed main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	file("");
-	|
+	file("CAU2");
+	cin >> n;
+	FOR(i, 1, n) {
+		cin >> x;
+		cnt[x]++;
+	}
+	FOR(i, 1, mxVal) if (cnt[i] == 0) {
+		cout << i;
+		exit(0);
+	}
 }
 
 

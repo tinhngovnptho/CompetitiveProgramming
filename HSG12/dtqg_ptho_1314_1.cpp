@@ -26,8 +26,13 @@ const int mxVal = 1e6 + 11;
 
 signed main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	file("");
-	|
+	file("CAU1");
+	int n;
+	cin >> n;
+	int cnt = 2;
+	FOR(i, 2, sqrt(n)) if (n % i == 0) cnt += 2;
+	if (sqr(sqrt(n)) == n) cnt--;
+	cout << cnt;
 }
 
 
