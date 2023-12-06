@@ -15,17 +15,18 @@ using namespace std;
 #define sqr(x) (ll) (x) * (x)
 #define FOR(i, a, b) for (__typeof(a) i = (a); i <= (b); ++i)
 #define FORD(i, b, a) for (__typeof(b) i = (b); i >= (a); --i)
+#define FORC(i, a, b, s) for (__typeof(a) i = (a); i <= (b); i += (s))
 
 template <class T> bool umin(T& a, const T& b) { return a > b ? a = b, 1 : 0; }
 template <class T> bool umax(T& a, const T& b) { return a < b ? a = b, 1 : 0; }
 
 
 signed main(void) {
-	cin.tie(0), cout.tie(0) -> sync_with_stdio(0);
-	if (fopen(NAME ".inp", "r"))
-		freopen(NAME ".inp", "r", stdin), freopen(NAME ".out", "w", stdout);
+        cin.tie(0), cout.tie(0) -> sync_with_stdio(0);
+        if (fopen(NAME ".inp", "r"))
+                freopen(NAME ".inp", "r", stdin), freopen(NAME ".out", "w", stdout);
 
-	|
+        |
 }
 
 /**-----------------------------------------
