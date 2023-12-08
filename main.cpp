@@ -21,12 +21,11 @@ template <class T> bool umin(T& a, const T& b) { return a > b ? a = b, 1 : 0; }
 template <class T> bool umax(T& a, const T& b) { return a < b ? a = b, 1 : 0; }
 
 
-signed main()
-{
-	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	file("");
+signed main(void) {
+        ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+        file("");
 
-	|
+
 }
 
 /**-----------------------------------------
