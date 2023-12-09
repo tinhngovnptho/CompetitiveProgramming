@@ -25,42 +25,25 @@ const int MOD = 1e9+7;
 const int mxN = 2e5+7;
 const int mxVal = 1e6+11;
 
-mt19937 rdg(chrono::steady_clock::now().time_since_epoch().count());
-
-ll Rand(ll l, ll h) {
-    assert(l <= h);
-    return l + rdg() * 1LL * rdg() % (h - l + 1);
-}
-
-void GenTest(ofstream &out) {
-
-}
+int n, k, dp[mxN], a[mxN];
 
 signed main() {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0); cout.tie(0);
 	// freopen(NAME ".inp", "r", stdin);
 	// freopen(NAME ".out", "w", stdout);
+	cin >> n >> k;
+	ForE(i, 1, n) cin >> a[i];
 
-	int Ntest; cin >> Ntest;
-	ForE(i, 1, Ntest) {
-		ofstream inp(NAME ".inp");
-		GenTest(inp);
-		inp.close();
+	dp[0] = 0;
+	ForE(i, 1, n) dp[i] = a[i] + *max_element(dp + max(0, i-k), dp + i);
 
-		system(NAME ".exe");
-		system(NAME "_g.exe");
-
-		if (system("fc " NAME ".out " NAME "_g.out") != 0) {
-			cout << "Test " << i << ": WA\n";
-			return 0;
-		}
-		cout << "Test " << i << ": AC\n";
-	}
+	cout << *max_element(dp, dp + n + 1);
 }
 
 /**-----------------------------------------
--------------Author: tinhnopro -------------
------------While(!Die) Code(); ^.^----------
----------//--------NVT---------//-----------
------------------------------------------**/
+---------- Author: tinhnopro ---------------
+----------While(!Die) Code();---------------
+---------//-------NVT-------//--- /\_/\ ----
+-------------------------------- (= ._.) ---
+-------------------------------- />WA  \> **/

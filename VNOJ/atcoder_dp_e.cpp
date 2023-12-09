@@ -22,45 +22,41 @@ template <class T> bool umax(T& a, const T& b) { return a < b ? a = b, 1 : 0; }
 
 const ll oo = 1e18+11;
 const int MOD = 1e9+7;
-const int mxN = 2e5+7;
+const int mxN = 1e5+11;
 const int mxVal = 1e6+11;
 
-mt19937 rdg(chrono::steady_clock::now().time_since_epoch().count());
-
-ll Rand(ll l, ll h) {
-    assert(l <= h);
-    return l + rdg() * 1LL * rdg() % (h - l + 1);
-}
-
-void GenTest(ofstream &out) {
-
-}
+int n, W, w[mxN], v[mxN];
+ll dp[mxN];
 
 signed main() {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0); cout.tie(0);
 	// freopen(NAME ".inp", "r", stdin);
 	// freopen(NAME ".out", "w", stdout);
+	cin >> n >> W;
+	ForE(i, 1, n) {
+		cin >> w[i] >> v[i];
+	}
 
-	int Ntest; cin >> Ntest;
-	ForE(i, 1, Ntest) {
-		ofstream inp(NAME ".inp");
-		GenTest(inp);
-		inp.close();
+	For(i, 1, mxN) dp[i] = oo;
+	dp[0] = 0;
 
-		system(NAME ".exe");
-		system(NAME "_g.exe");
-
-		if (system("fc " NAME ".out " NAME "_g.out") != 0) {
-			cout << "Test " << i << ": WA\n";
-			return 0;
+	ForE(i, 1, n) {
+		ForD(j, mxN-1, 0) {
+			if (dp[j] + w[i] <= W) umin(dp[j+v[i]], dp[j] + w[i]);
 		}
-		cout << "Test " << i << ": AC\n";
+	}
+	ForD(i, mxN-1, 0) {
+		if (dp[i] != oo) {
+			cout << i;
+			exit(0);
+		}
 	}
 }
 
 /**-----------------------------------------
--------------Author: tinhnopro -------------
------------While(!Die) Code(); ^.^----------
----------//--------NVT---------//-----------
------------------------------------------**/
+---------- Author: tinhnopro ---------------
+----------While(!Die) Code();---------------
+---------//-------NVT-------//--- /\_/\ ----
+-------------------------------- (= ._.) ---
+-------------------------------- />WA  \> **/

@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define NVT ""
+#define NAME ""
 #define endl '\n'
 #define fi first
 #define se second
@@ -26,14 +26,11 @@ const int mxN = 2e5+7;
 const int mxVal = 1e6+11;
 
 
-signed main(void) {
+signed main() {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0); cout.tie(0);
-	if (fopen(NVT ".inp", "r")) {
-		freopen(NVT ".inp", "r", stdin);
-		freopen(NVT ".out", "w", stdout);
-	}
-
+	// freopen(NAME ".inp", "r", stdin);
+	// freopen(NAME ".out", "w", stdout);
 	|
 }
 

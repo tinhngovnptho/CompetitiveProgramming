@@ -25,15 +25,17 @@ const int MOD = 1e9+7;
 const int mxN = 2e5+7;
 const int mxVal = 1e6+11;
 
-mt19937 rdg(chrono::steady_clock::now().time_since_epoch().count());
+unordered_set <int> pw;
 
-ll Rand(ll l, ll h) {
-    assert(l <= h);
-    return l + rdg() * 1LL * rdg() % (h - l + 1);
-}
-
-void GenTest(ofstream &out) {
-
+void init() {
+	pw.insert(1);
+	ForE(i, 2, sqrt(mxN)) {
+		int x = i*i;
+		while (x <= mxN) {
+			pw.insert(x);
+			x *= i;
+		}
+	}
 }
 
 signed main() {
@@ -41,26 +43,20 @@ signed main() {
 	cin.tie(0); cout.tie(0);
 	// freopen(NAME ".inp", "r", stdin);
 	// freopen(NAME ".out", "w", stdout);
-
-	int Ntest; cin >> Ntest;
-	ForE(i, 1, Ntest) {
-		ofstream inp(NAME ".inp");
-		GenTest(inp);
-		inp.close();
-
-		system(NAME ".exe");
-		system(NAME "_g.exe");
-
-		if (system("fc " NAME ".out " NAME "_g.out") != 0) {
-			cout << "Test " << i << ": WA\n";
-			return 0;
+	init();
+	int x;
+	cin >> x;
+	ForD(i, x, 1) {
+		if(pw.count(i)) {
+			cout << i;
+			exit(0);
 		}
-		cout << "Test " << i << ": AC\n";
 	}
 }
 
 /**-----------------------------------------
--------------Author: tinhnopro -------------
------------While(!Die) Code(); ^.^----------
----------//--------NVT---------//-----------
------------------------------------------**/
+---------- Author: tinhnopro ---------------
+----------While(!Die) Code();---------------
+---------//-------NVT-------//--- /\_/\ ----
+-------------------------------- (= ._.) ---
+-------------------------------- />WA  \> **/

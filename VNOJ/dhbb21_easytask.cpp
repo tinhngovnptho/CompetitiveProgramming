@@ -22,18 +22,18 @@ template <class T> bool umax(T& a, const T& b) { return a < b ? a = b, 1 : 0; }
 
 const ll oo = 1e18+11;
 const int MOD = 1e9+7;
-const int mxN = 2e5+7;
+const int mxN = 2e6+7;
 const int mxVal = 1e6+11;
 
-mt19937 rdg(chrono::steady_clock::now().time_since_epoch().count());
+bool prime[mxN];
+ll a[mxN], prefix[mxN];
+int n;
 
-ll Rand(ll l, ll h) {
-    assert(l <= h);
-    return l + rdg() * 1LL * rdg() % (h - l + 1);
-}
-
-void GenTest(ofstream &out) {
-
+void sieve(int n) {
+	memset(prime, -1, sizeof prime);
+	prime[0] = prime[1] = 0;
+	ForE(i, 2, sqrt(n)) if (prime[i])
+		for (int j = i*i; j <= n; j += i) prime[j] = 0;
 }
 
 signed main() {
@@ -41,26 +41,31 @@ signed main() {
 	cin.tie(0); cout.tie(0);
 	// freopen(NAME ".inp", "r", stdin);
 	// freopen(NAME ".out", "w", stdout);
+	cin >> n;
 
-	int Ntest; cin >> Ntest;
-	ForE(i, 1, Ntest) {
-		ofstream inp(NAME ".inp");
-		GenTest(inp);
-		inp.close();
+	sieve(n);
+	prefix[0] = 0;
 
-		system(NAME ".exe");
-		system(NAME "_g.exe");
-
-		if (system("fc " NAME ".out " NAME "_g.out") != 0) {
-			cout << "Test " << i << ": WA\n";
-			return 0;
-		}
-		cout << "Test " << i << ": AC\n";
+	ForE(i, 1, n) {
+		cin >> a[i];
+		prefix[i] = prefix[i-1] + a[i];
 	}
+
+	ll ans = -oo, minL = prefix[1];
+
+	ForE(i, 2, n) {
+		if (prime[i]) {
+			umin(minL, prefix[i-1]);
+			umax(ans, prefix[i] - minL);
+		}
+	}
+
+	cout << (ans == -oo ? 0 : ans);
 }
 
 /**-----------------------------------------
--------------Author: tinhnopro -------------
------------While(!Die) Code(); ^.^----------
----------//--------NVT---------//-----------
------------------------------------------**/
+---------- Author: tinhnopro ---------------
+----------While(!Die) Code();---------------
+---------//-------NVT-------//--- /\_/\ ----
+-------------------------------- (= ._.) ---
+-------------------------------- />WA  \> **/
