@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define NAME ""
+#define NAME "ShenYun"
 #define ll long long
 #define ld long double
 #define ull unsigned long long
@@ -18,15 +18,25 @@ using namespace std;
 template <class T> bool umin(T& a, const T& b) { return  a > b ? a = b, 1 : 0; }
 template <class T> bool umax(T& a, const T& b) { return a < b ? a = b, 1 : 0; }
 template <class T> string to_str(T& a, int p = -1) { stringstream ss; p >= 0 ? ss << fixed << setprecision(p) << a : ss << a; return ss.str(); }
-template <class T> T abs(T a) { return a >= 0 ? a : -a; }
 
+ll N, x, y;
+
+ll gcd(ll a, ll b) {
+	return b == 0 ? a : gcd(b, a % b);
+}
+
+ll lcm(ll a, ll b) {
+	return a / gcd(a, b) * b;
+}
 
 signed main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(0); cout.tie(0);
+	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	if (fopen(NAME ".inp", "r")) {
-		freopen(NAME ".inp", "r", stdin);
-		freopen(NAME ".out", "w", stdout);
+		assert(freopen(NAME ".inp", "r", stdin));
+		assert(freopen(NAME ".out", "w", stdout));
 	}
-	|
+
+	cin >> N >> x >> y;
+
+	cout << N / lcm(x, y);
 }
