@@ -16,31 +16,21 @@ template <class X, class Y> bool umax(X &a, const Y &b) { return a < b ? a = b, 
 template <class T> string to_str(const T &a, int p = -1) { stringstream ss; p >= 0 ? ss << fixed << setprecision(p) << a : ss << a; return ss.str(); }
 template <class T> T abs(const T &a) { return a >= 0 ? a : -a; }
 
-#define MAX_N	10000001
+#define MAX_N	1000011
 
-const int MOD = 1e9+7;
+bool prime[MAX_N];
 
-int mulDiv[MAX_N];
+vector<int> v;
 
-void add(int &a, const int &b) {
-	ll res = a + b;
-	if (res >= MOD) res -= MOD;
-	a = res;
-}
+ll n;
 
-int mul(const int &a, const int &b) {
-	return 1LL * a * b % MOD;
-}
-
-void Sieve(int n) {
-	FOR(i, 0, n) mulDiv[i] = i;
-
-	FOR(i, 2, sqrt(n)) {
-		mulDiv[i*i] = mul(mulDiv[i*i], i);
-		FOR(j, i+1, n / i) {
-			mulDiv[i*j] = mul(mulDiv[i*j], i);
-			mulDiv[i*j] = mul(mulDiv[i*j], j);
-		}
+void sieve(void) {
+	memset(prime, -1, sizeof prime);
+	FOR(i, 2, sqrt(MAX_N)) if (prime[i]) {
+		FOR(j, i, MAX_N / i) prime[i*j] = 0;
+	}
+	FOR(i, 2, MAX_N) if (prime[i]) {
+		v.push_back(i);
 	}
 }
 
@@ -49,13 +39,15 @@ int main(void) {
 //	freopen(".inp", "r", stdin);
 //	freopen(".out", "w", stdout);
 
-	int L, R;
-	cin >> L >> R;
+	cin >> n;
 
-	Sieve(MAX_N-1);
-	int ans = 0;
+	sieve();
+	ll ans = 0;
 
-	FOR(i, L, R) add(ans, mulDiv[i]);
+	FOR(i, 0, sz(v)-3) {
+		ll k = 1LL * v[i] * v[i+1] * v[i+2];
+		if (k <= n) umax(ans, k);
+	}
 
 	cout << ans;
 

@@ -16,46 +16,17 @@ template <class X, class Y> bool umax(X &a, const Y &b) { return a < b ? a = b, 
 template <class T> string to_str(const T &a, int p = -1) { stringstream ss; p >= 0 ? ss << fixed << setprecision(p) << a : ss << a; return ss.str(); }
 template <class T> T abs(const T &a) { return a >= 0 ? a : -a; }
 
-#define MAX_N	10000001
-
-const int MOD = 1e9+7;
-
-int mulDiv[MAX_N];
-
-void add(int &a, const int &b) {
-	ll res = a + b;
-	if (res >= MOD) res -= MOD;
-	a = res;
-}
-
-int mul(const int &a, const int &b) {
-	return 1LL * a * b % MOD;
-}
-
-void Sieve(int n) {
-	FOR(i, 0, n) mulDiv[i] = i;
-
-	FOR(i, 2, sqrt(n)) {
-		mulDiv[i*i] = mul(mulDiv[i*i], i);
-		FOR(j, i+1, n / i) {
-			mulDiv[i*j] = mul(mulDiv[i*j], i);
-			mulDiv[i*j] = mul(mulDiv[i*j], j);
-		}
-	}
-}
+ll n, a, b, c;
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 //	freopen(".inp", "r", stdin);
 //	freopen(".out", "w", stdout);
 
-	int L, R;
-	cin >> L >> R;
+	cin >> a >> b >> c >> n;
 
-	Sieve(MAX_N-1);
-	int ans = 0;
-
-	FOR(i, L, R) add(ans, mulDiv[i]);
+	ll ans = n / a + n / b + n / c;
+	ans = ans - n / (a * b) - n / (a * c) - n / (b * c) + n / (a * b * c);
 
 	cout << ans;
 
