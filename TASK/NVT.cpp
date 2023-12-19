@@ -16,6 +16,8 @@ template <class X, class Y> bool umax(X &a, const Y &b) { return a < b ? a = b, 
 template <class T> string to_str(const T &a, int p = -1) { stringstream ss; p >= 0 ? ss << fixed << setprecision(p) << a : ss << a; return ss.str(); }
 template <class T> T abs(const T &a) { return a >= 0 ? a : -a; }
 
+<<<<<<< HEAD
+=======
 #define MAX_N	10000001
 
 const int MOD = 1e9+7;
@@ -43,12 +45,16 @@ void Sieve(int n) {
 		}
 	}
 }
+>>>>>>> 13036fa7ea7c8c636312cc92f2af6e9dc10a52ba
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 //	freopen(".inp", "r", stdin);
 //	freopen(".out", "w", stdout);
 
+<<<<<<< HEAD
+
+=======
 	int L, R;
 	cin >> L >> R;
 
@@ -58,6 +64,7 @@ int main(void) {
 	FOR(i, L, R) add(ans, mulDiv[i]);
 
 	cout << ans;
+>>>>>>> 13036fa7ea7c8c636312cc92f2af6e9dc10a52ba
 
 	return 0;
 }

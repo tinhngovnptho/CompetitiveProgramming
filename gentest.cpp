@@ -1,66 +1,52 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define NAME ""
-#define endl '\n'
+#define FOR(i, a, b) for (int i = (a); i <= (b); ++i)
+#define FORD(i, b, a) for (int i = (b); i >= (a); --i)
+#define FORA(i, v) for (__typeof((v).begin()) i = (v).begin(); i != (v).end(); ++i)
+#define ALL(v) (v).begin(), (v).end()
+#define sz(x) (int)(x).size()
 #define fi first
 #define se second
 #define ll long long
-#define ld long double
 #define ull unsigned long long
-#define pii pair<int, int>
-#define pll pair<ll, ll>
-#define sqr(x) (ll) (x) * (x)
-#define ALL(s) (s).begin(), (s).end()
-#define SZ(s) (int)(s).size()
-#define For(i, a, b) for (__typeof(a) i = (a), _b = (b); i < _b; ++i)
-#define ForE(i, a, b) for (__typeof(a) i = (a), _b = (b); i <= _b; ++i)
-#define ForD(i, b, a) for (__typeof(b) i = (b), _a = (a); i >= _a; --i)
 
-template <class T> bool umin(T& a, const T& b) { return a > b ? a = b, 1 : 0; }
-template <class T> bool umax(T& a, const T& b) { return a < b ? a = b, 1 : 0; }
+template <class X, class Y> bool umin(X &a, const Y &b) { return a > b ? a = b, 1 : 0; }
+template <class X, class Y> bool umax(X &a, const Y &b) { return a < b ? a = b, 1 : 0; }
+template <class T> string to_str(const T &a, int p = -1) { stringstream ss; p >= 0 ? ss << fixed << setprecision(p) << a : ss << a; return ss.str(); }
+template <class T> T abs(const T &a) { return a >= 0 ? a : -a; }
 
-const ll oo = 1e18+11;
-const int MOD = 1e9+7;
-const int mxN = 2e5+7;
-const int mxVal = 1e6+11;
+#define NAME	""
 
-mt19937 rdg(chrono::steady_clock::now().time_since_epoch().count());
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
-ll Rand(ll l, ll h) {
-    assert(l <= h);
-    return l + rdg() * 1LL * rdg() % (h - l + 1);
+ll randInt(ll l, ll r) {
+	return l + rng() * 1LL * rng() % (r - l + 1);
 }
 
-void GenTest(ofstream &out) {
+void gen(void) {
+	ofstream inp(NAME ".inp");
 
+
+
+        inp.close();
 }
 
-signed main() {
-	ios_base::sync_with_stdio(0);
-	cin.tie(0); cout.tie(0);
-	// freopen(NAME ".inp", "r", stdin);
-	// freopen(NAME ".out", "w", stdout);
+int main(void) {
+	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+//	freopen(".inp", "r", stdin);
+//	freopen(".out", "w", stdout);
 
-	int Ntest; cin >> Ntest;
-	ForE(i, 1, Ntest) {
-		ofstream inp(NAME ".inp");
-		GenTest(inp);
-		inp.close();
+	srand(time(NULL));
 
+	FOR(i, 1, 100) {
+		gen();
 		system(NAME ".exe");
-		system(NAME "_g.exe");
-
-		if (system("fc " NAME ".out " NAME "_g.out") != 0) {
-			cout << "Test " << i << ": WA\n";
+		system(NAME "_brute.exe");
+		if (system("fc " NAME ".out " NAME ".ans") != 0) {
 			return 0;
 		}
-		cout << "Test " << i << ": AC\n";
 	}
-}
 
-/**-----------------------------------------
--------------Author: tinhnopro -------------
------------While(!Die) Code(); ^.^----------
----------//--------NVT---------//-----------
------------------------------------------**/
+	return 0;
+}
