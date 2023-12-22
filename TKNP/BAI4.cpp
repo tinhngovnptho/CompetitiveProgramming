@@ -16,36 +16,16 @@ template <class X, class Y> bool umax(X &a, const Y &b) { return a < b ? a = b, 
 template <class T> string to_str(const T &a, int p = -1) { stringstream ss; p >= 0 ? ss << fixed << setprecision(p) << a : ss << a; return ss.str(); }
 template <class T> T abs(const T &a) { return a >= 0 ? a : -a; }
 
-#define MAX_N	100100
+#define MAX_N	1000100
 
-int n, a[MAX_N], S;
+int h[MAX_N], n, m;
 
-int Lowbinsearch(int l, int r, int x) {
-	int res = -1;
-	while (l <= r) {
-		int mid = (l + r) / 2;
-		if (a[mid] <= x) {
-			if (a[mid] == x) {
-				res = mid;
-			}
-			r = mid - 1;
-		} else l = mid + 1;
+bool check(int H) {
+	int countWood = 0;
+	FOR(i, 1, n) {
+		if (h[i] > H) countWood += h[i] - H;
 	}
-	return res;
-}
-
-int Hightbinsearch(int l, int r, int x) {
-	int res = -1;
-	while (l <= r) {
-		int mid = (l + r) / 2;
-		if (a[mid] <= x) {
-			if (a[mid] == x) {
-				res = mid;
-			}
-			l = mid + 1;
-		} else r = mid - 1;
-	}
-	return res;
+	return countWood >= m;
 }
 
 int main(void) {
@@ -53,24 +33,22 @@ int main(void) {
 //	freopen(".inp", "r", stdin);
 //	freopen(".out", "w", stdout);
 
-	cin >> n >> S;
+	cin >> n >> m;
 	FOR(i, 1, n) {
-		cin >> a[i];
+		cin >> h[i];
 	}
 
-	sort(a+1, a+n+1);
+	int L = 0, R = *max_element(h+1, h+n+1), ans = 0;
 
-	ll cnt = 0;
-
-	FOR(i, 1, n-1) {
-		int idx1 = Lowbinsearch(i+1, n, S - a[i]);
-		int idx2 = Hightbinsearch(i+1, n, S - a[i]);
-		if (idx1 != -1 && idx2 != -1) {
-			cnt += idx2 - idx1 + 1;
-		}
+	while (L <= R) {
+		int mid = (L + R) / 2;
+		if (check(mid)) {
+			ans = mid;
+			L = mid + 1;
+		} else R = mid - 1;
 	}
 
-	cout << cnt;
+	cout << ans;
 
 	return 0;
 }
