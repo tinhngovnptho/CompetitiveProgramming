@@ -16,16 +16,32 @@ template <class X, class Y> bool umax(X &a, const Y &b) { return a < b ? a = b, 
 template <class T> string to_str(const T &a, int p = -1) { stringstream ss; p >= 0 ? ss << fixed << setprecision(p) << a : ss << a; return ss.str(); }
 template <class T> T abs(const T &a) { return a >= 0 ? a : -a; }
 
-string s;
-ll r, N[3], p[3], countX[3]; // Nb, Ns, Nc, pb, ps, pc, countB, countS, count C
+const int MAX_N = 1e3+7;
 
-bool canCreatHumburger(ll x, ll r) {
-	FOR(i, 0, 2) {
-		if (N[i] < countX[i] * x) {
-			r -= (countX[i] * x - N[i]) * p[i];
-		}
+int a[MAX_N], b[MAX_N], c[MAX_N], n;
+
+int Fbinsearch(int l, int r, int x) {
+	int result = -1;
+	while (l <= r) {
+		int mid = (l + r) / 2;
+		if (c[mid] > x) {
+			result = mid;
+			r = mid - 1;
+		} else l = mid + 1;
 	}
-	return r >= 0;
+	return result;
+}
+
+int Lbinsearch(int l, int r, int x) {
+	int result = -1;
+	while (l <= r) {
+		int mid = (l + r) / 2;
+		if (c[mid] < x) {
+			result = mid;
+			l = mid + 1;
+		} else r = mid - 1;
+	}
+	return result;
 }
 
 int main(void) {
@@ -33,30 +49,31 @@ int main(void) {
 //	freopen(".inp", "r", stdin);
 //	freopen(".out", "w", stdout);
 
-	cin >> s;
-	FOR(i, 0, 2) cin >> N[i];
-	FOR(i, 0, 2) cin >> p[i];
-	cin >> r;
-
-	FOR(i, 0, sz(s)-1) {
-		if (s[i] == 'B') {
-			countX[0]++;
-		} else if (s[i] == 'S') {
-			countX[1]++;
-		} else countX[2]++;
+	cin >> n;
+	FOR(i, 1, n) {
+		cin >> a[i];
+	}
+	FOR(i, 1, n) {
+		cin >> b[i];
+	}
+	FOR(i, 1, n) {
+		cin >> c[i];
 	}
 
-	ll L = 0LL, R = 1e18, result = 0LL;
+	sort(c+1, c+n+1);
+	int cnt = 0;
 
-	while (L <= R) {
-		ll mid = (L + R) / 2;
-		if (canCreatHumburger(mid, r)) {
-			result = mid;
-			L = mid + 1;
-		} else R = mid - 1;
+	FOR(i, 1, n) {
+		FOR(j, 1, n) {
+			int idx1 = Fbinsearch(1, n, abs(a[i]-b[j]));
+			int idx2 = Lbinsearch(1, n, a[i] + b[j]);
+			if (idx1 == -1 || idx2 == -1 || idx1 > idx2) continue;
+//			cout << idx1 << " " << idx2 << " " << i << " " << j << "\n";
+			cnt += idx2 - idx1 + 1;
+		}
 	}
 
-	cout << result;
+	cout << cnt;
 
 	return 0;
 }
