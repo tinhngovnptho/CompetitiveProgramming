@@ -1,41 +1,46 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-#define FOR(i, a, b) for (int i = (a); i <= (b); ++i)
-#define FORD(i, b, a) for (int i = (b); i >= (a); --i)
-#define FORA(i, v) for (__typeof((v).begin()) i = (v).begin(); i != (v).end(); ++i)
-#define ALL(v) (v).begin(), (v).end()
-#define sz(x) (int)(x).size()
-#define fi first
-#define se second
-#define ll long long
-#define ull unsigned long long
-
-template <class X, class Y> bool umin(X &a, const Y &b) { return a > b ? a = b, 1 : 0; }
-template <class X, class Y> bool umax(X &a, const Y &b) { return a < b ? a = b, 1 : 0; }
-template <class T> string to_str(const T &a, int p = -1) { stringstream ss; p >= 0 ? ss << fixed << setprecision(p) << a : ss << a; return ss.str(); }
-template <class T> T abs(const T &a) { return a >= 0 ? a : -a; }
-
-
-int main(void) {
-	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-//	freopen(".inp", "r", stdin);
-//	freopen(".out", "w", stdout);
-
-	cin >> n;
-	FOR(i, 1, n) {
-		cin >> a[i];
+bool cmp(int a,int b){
+	return a>b;
+}
+int main(){
+	int n,x,pos1=0,pos2=0,s=0;
+	cin>>n;
+	vector <int> a1,a2,b1,b2;
+	for(int i=0;i<n;i++){
+		cin>>x;
+		if(x>0) a1.push_back(x);
+		else a2.push_back(x);
 	}
-	FOR(i, 1, n) {
-		cin >> b[i];
+	for(int i=0;i<n;i++){
+		cin>>x;
+		if(x>0) b1.push_back(x);
+		else b2.push_back(x);
 	}
-
-	sort(a+1, a+n+1);
-	sort(b+1, b+n+1);
-
-	FOR(i, 1, n) {
-
+	sort(a1.begin(),a1.end(),cmp);
+	sort(b1.begin(),b1.end(),cmp);
+	sort(a2.begin(),a2.end());
+	sort(b2.begin(),b2.end());
+	while(1){
+		if(pos1==a1.size()||pos2==b2.size()) break;
+		if(a1[pos1]+b2[pos2]<0){
+			s++;
+			pos1++;pos2++;
+		}
+		else{
+			pos1++;
+		}
 	}
-
-	return 0;
+	pos1=0;pos2=0;
+	while(1){
+		if(pos1==b1.size()||pos2==a2.size()) break;
+		if(b1[pos1]+a2[pos2]<0){
+			s++;
+			pos1++;pos2++;
+		}
+		else{
+			pos1++;
+		}
+	}
+	cout<<s;
 }
