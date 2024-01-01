@@ -16,18 +16,22 @@ template <class X, class Y> bool umax(X &a, const Y &b) { return a < b ? a = b, 
 template <class T> string to_str(const T &a, int p = -1) { stringstream ss; p >= 0 ? ss << fixed << setprecision(p) << a : ss << a; return ss.str(); }
 template <class T> T abs(const T &a) { return a >= 0 ? a : -a; }
 
-#define NAME	""
+#define NAME	"NVT"
 
-mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 ll randInt(ll l, ll r) {
-	return l + rng() * 1LL * rng() % (r - l + 1);
+	return uniform_int_distribution<ll> (l, r) (rng);
 }
 
 void gen(void) {
 	ofstream inp(NAME ".inp");
 
-	ll n = randInt(1, 1e12);
+	int L = randInt(-100, 100), R = L + randInt(-100, 100), T = L + randInt(-100, 200);
+
+//	cout << L << " " << " " << R << " " << T << "\n";
+
+	inp << L << " " << R << " " << T;
 
         inp.close();
 }
@@ -39,7 +43,14 @@ int main(void) {
 
 	srand(time(NULL));
 
-	gen();
+	FOR(i, 1, 100) {
+		gen();
+		system(NAME ".exe");
+		system(NAME "_brute.exe");
+		if (system("fc " NAME ".out " NAME ".ans") != 0) {
+			return 0;
+		}
+	}
 
 	return 0;
 }
