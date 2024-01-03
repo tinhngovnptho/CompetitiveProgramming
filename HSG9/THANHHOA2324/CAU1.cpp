@@ -15,26 +15,20 @@ using namespace std;
 template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a = b, 1 : 0; }
 template <class X, class Y> bool minimize(X &a, const Y &b) { return a > b ? a = b, 1 : 0; }
 
-int tcs(int x) {
-	int res = 0;
-	while (x) {
-		res += x % 10;
-		x /= 10;
-	}
-	return res;
-}
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
 //	freopen(".inp", "r", stdin);
 //	freopen(".out", "w", stdout);
 
-	int l, r, ans = 0;
-	cin >> l >> r;
-	FOR(i, l, r-1) FORD(j, r, i+1) {
-		if (tcs(i) == tcs(j)) {
-			maximize(ans, j-i);
+	string s; cin >> s;
+	string ans = "";
+	FOR(i, 0, s.size()-1) {
+		if (isupper(s[i])) {
+			s[i] = tolower(s[i]);
+			if (ans.size()) ans.push_back('_');
 		}
+		ans.push_back(s[i]);
 	}
 
 	cout << ans;

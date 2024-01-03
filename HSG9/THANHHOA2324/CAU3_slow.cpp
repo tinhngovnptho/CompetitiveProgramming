@@ -15,13 +15,24 @@ using namespace std;
 template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a = b, 1 : 0; }
 template <class X, class Y> bool minimize(X &a, const Y &b) { return a > b ? a = b, 1 : 0; }
 
-int tcs(int x) {
-	int res = 0;
+bool isSpecial(int x) {
+	int cnt = 0;
+	for (int i = 2; i * i <= x; ++i) {
+		if (x % i == 0) {
+			cnt++;
+			while (x % i == 0) x /= i;
+		}
+	}
+	return cnt >= 3;
+}
+
+bool isPal(int x) {
+	int tmp = x, res = 0;
 	while (x) {
-		res += x % 10;
+		res = res * 10 + x % 10;
 		x /= 10;
 	}
-	return res;
+	return res == tmp;
 }
 
 int main(void) {
@@ -31,10 +42,9 @@ int main(void) {
 
 	int l, r, ans = 0;
 	cin >> l >> r;
-	FOR(i, l, r-1) FORD(j, r, i+1) {
-		if (tcs(i) == tcs(j)) {
-			maximize(ans, j-i);
-		}
+
+	FOR(i, l, r) {
+		if (isSpecial(i) && isPal(i)) ans += i;
 	}
 
 	cout << ans;

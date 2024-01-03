@@ -15,29 +15,37 @@ using namespace std;
 template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a = b, 1 : 0; }
 template <class X, class Y> bool minimize(X &a, const Y &b) { return a > b ? a = b, 1 : 0; }
 
-int tcs(int x) {
-	int res = 0;
-	while (x) {
-		res += x % 10;
-		x /= 10;
-	}
-	return res;
-}
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
 //	freopen(".inp", "r", stdin);
 //	freopen(".out", "w", stdout);
 
-	int l, r, ans = 0;
-	cin >> l >> r;
-	FOR(i, l, r-1) FORD(j, r, i+1) {
-		if (tcs(i) == tcs(j)) {
-			maximize(ans, j-i);
+	string num; cin >> num;
+
+	num = " " + num;
+	int res = 0, d = 0;
+	bool isPrefix = num[1] == '?';
+	FOR(i, 1, num.size()-1) {
+		if (num[i] != '?') {
+			res = (res + (num[i] - '0') * i % 7) % 7;
+		} else {
+			d += i;
 		}
 	}
 
-	cout << ans;
+	res = 7 - res;
+
+	res %= 7;
+
+	FOR(i, isPrefix, 9) {
+		if (i * d % 7 == res) {
+			cout << i;
+			return 0;
+		}
+	}
+
+	cout << -1;
 
 	return 0;
 }

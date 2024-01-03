@@ -15,29 +15,32 @@ using namespace std;
 template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a = b, 1 : 0; }
 template <class X, class Y> bool minimize(X &a, const Y &b) { return a > b ? a = b, 1 : 0; }
 
-int tcs(int x) {
-	int res = 0;
-	while (x) {
-		res += x % 10;
-		x /= 10;
-	}
-	return res;
-}
+set<int> d;
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-//	freopen(".inp", "r", stdin);
-//	freopen(".out", "w", stdout);
+	freopen("MM.inp", "r", stdin);
+	freopen("MM.out", "w", stdout);
 
-	int l, r, ans = 0;
-	cin >> l >> r;
-	FOR(i, l, r-1) FORD(j, r, i+1) {
-		if (tcs(i) == tcs(j)) {
-			maximize(ans, j-i);
+	string s;
+	getline(cin, s);
+
+	int res = 0;
+	bool check = false;
+	FOR(i, 0, s.size()-1) {
+		if (isdigit(s[i])) {
+			res = res * 10 + (s[i] - '0');
+			check = true;
+		} else {
+			if (check) d.insert(res);
+			check = false;
+			res = 0;
 		}
 	}
 
-	cout << ans;
+	if (check) d.insert(res);
+
+	cout << d.size();
 
 	return 0;
 }
