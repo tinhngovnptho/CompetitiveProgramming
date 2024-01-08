@@ -18,12 +18,27 @@ template <class X, class Y> bool minimize(X &a, const Y &b) {
 	return a > b ? a = b, 1 : 0;
 }
 
+const int MAXN = 1e6+11;
+
+int n, k, l, r, d[MAXN];
+
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-//	freopen(".inp", "r", stdin);
-//	freopen(".out", "w", stdout);
+	freopen("DIEMCHUNG.inp", "r", stdin);
+	freopen("DIEMCHUNG.ans", "w", stdout);
 
-	|
+	cin >> n >> k;
+	memset(d, 0, sizeof(d));
+	FOR(i, 1, n) {
+		cin >> l >> r;
+		FOR(j, l, r) d[j]++;
+	}
+
+	int ans = 0;
+
+	FOR(i, 1, MAXN-1) if (d[i] == k) ans++;
+
+	cout << ans;
 
 	return 0;
 }

@@ -23,7 +23,13 @@ int main(void) {
 //	freopen(".inp", "r", stdin);
 //	freopen(".out", "w", stdout);
 
-	|
+	long long a, b, c, d;
+	cin >> a >> b >> c >> d;
+
+	if (a > b) swap(a, b);
+	if (c > d) swap(c, d);
+
+	cout << (c * b == a * d ? "YES" : "NO");
 
 	return 0;
 }

@@ -1,77 +1,56 @@
 #include <bits/stdc++.h>
+
 using namespace std;
 
-#define ll long long
-#define ld long double
-#define ull unsigned long long
+#define FOR(i, a, b) for (int i = (a), _b = (b); i <= (b); ++i)
+#define FORD(i, a, b) for (int i = (a), _b = (b); i >= (b); ++i)
+#define FORA(it, v) for (typeof((v).begin()) it = (v).begin(); it != (v).end(); ++it)
+#define ALL(v) (v).begin(), (v).end()
+#define sz(x) (int) (x).size()
 #define fi first
 #define se second
-#define ii pair<int, int>
-#define vt vector
-#define pub push_back
-#define all(s) (s).begin(), (s).end()
-#define sz(s) (int)(s).size()
-#define sqr(x) (x) * (x)
-#define reset(f, v) memset(f, v, sizeof f)
-#define FORC(i, a, b, s) for (__typeof(a) i = (a), _b = (b); (s)>0 ? i<_b : i>_b; i += (s))
-#define FORCE(i, a, b, s) FORC(i, a, (s > 0) ? b+1 : b-1, s)
-#define FOR(i, a, b) FORC(i, a, b, 1)
-#define FORE(i, a, b) FORCE(i, a, b, 1)
-#define FORD(i, b, a) FORC(i, a, b, -1)
-#define FORDE(i, b, a) FORCE(i, b, a, -1)
-#define file(name) if (fopen(name".inp", "r")) { freopen(name".inp", "r", stdin); freopen(name".out", "w", stdout); }
 
-template<class T> bool umin(T& a, const T& b) {
-    return b < a ? a = b, 1 : 0;
-}
-template<class T> bool umax(T& a, const T& b) {
-    return a < b ? a = b, 1 : 0;
+template <class X, class Y> bool maximize(X &a, const Y &b) {
+	return a < b ? a = b, 1 : 0;
 }
 
-const ll oo  = 1e18;
-const int INF = 2e9 + 1e8 + 1e7;
-const int MOD = 1e9 + 7;
-const int mxN  = 17000 + 11;
-
-int seg[4*mxN], a[mxN], n, k;
-
-void build(int id, int l, int r) {
-        if (l == r)
-                return void(seg[id] = a[l]);
-        int mid = (l + r) >> 1;
-        build(id << 1, l, mid);
-        build(id << 1 | 1, mid + 1, r);
-        seg[id] = min(seg[id << 1], seg[id << 1 | 1]);
+template <class X, class Y> bool minimize(X &a, const Y &b) {
+	return a > b ? a = b, 1 : 0;
 }
 
-int query(int id, int l, int r, int u, int v) {
-        if (l > v || r < u)
-                return INF;
-        if (u <= l && r <= v)
-                return seg[id];
+const int MAXN = 1e3+11;
 
-        int mid = (l + r) >> 1;
-        return min(query(id << 1, l, mid, u, v), query(id << 1 | 1, mid + 1, r, u, v));
-}
+int n, k, x, d;
+vector<int> v;
 
-void solve() {
-        reset(seg, 0);
-        reset(a, 0);
-        cin >> n >> k;
-        FORE(i, 1, n) cin >> a[i];
-        build(1, 1, n);
-        FORE(i, 1, n - k + 1)
-                cout << query(1, 1, n, i, i + k-1) << " ";
+int main(void) {
+	ios_base::sync_with_stdio(false); cin.tie(NULL);
+//	freopen(".inp", "r", stdin);
+//	freopen(".out", "w", stdout);
 
-        cout << "\n";
-}
+	cin >> n >> k;
+	v.push_back(-1e9-11);
+	FOR(i, 1, n) {
+		cin >> x;
+		if (i == k) {
+			d = x;
+		} else v.push_back(x);
+	}
+	sort(ALL(v));
+	long long res = 0;
 
-signed main() {
-        ios_base::sync_with_stdio(0);
-        cin.tie(0);
-        int tests;
-        cin >> tests;
-        while (tests--) {
-                solve();
-        }
+	if (k == 1 || k == n) {
+		FOR(i, 2, n-1) res += abs(v[i] - v[i-1]);
+		res += min(abs(d - v[1]), abs(d - v.back()));
+	} else {
+		FOR(i, 2, k-1) res += abs(v[i] - v[i-1]);
+		res += min(abs(d - v[1]), abs(d - v[k-1]));
+		FOR(i, k+1, n-1) res += abs(v[i] - v[i-1]);
+//		cout << res << "\n";
+		res += min(abs(d - v[k]), abs(d - v.back()));
+	}
+
+	cout << res;
+
+	return 0;
 }
