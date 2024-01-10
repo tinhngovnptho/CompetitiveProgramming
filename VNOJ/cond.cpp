@@ -16,18 +16,29 @@ template <class X, class Y> bool minimize(X &a, const Y &b) { return a > b ? a =
 
 // end of template
 
+int n;
+unsigned long long dp[11][11], sum[11];
+
+void init(void) {
+	int n = 10;
+	dp[1][1] = 1;
+	FORE(i, 2, n) FORE(j, 1, i) {
+		dp[i][j] = j * (dp[i-1][j] + dp[i-1][j-1]);
+	}
+	FORE(i, 1, n) FORE(j, 1, i) {
+		sum[i] += dp[i][j];
+	}
+}
+
 int main(void) {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-	freopen("nvt.inp", "r", stdin);
-	freopen("nvt.out", "w", stdout);
+// 	freopen("nvt.inp", "r", stdin);
+// 	freopen("nvt.out", "w", stdout);
 
-	int tests; cin >> tests;
-	while(tests--) {
-		string coord; cin >> coord;
-		assert(coord.size() == 2);
-		FORE(i, 'a', 'h') if (i != coord[0]) cout << char(i) << coord[1] << "\n";
-		FORE(i, 1, 8) if (i != coord[1] - '0') cout << coord[0] << i << "\n";
+	init();
+	while(cin >> n && n != -1) {
+		cout << sum[n] << "\n";
 	}
 
 	return 0;

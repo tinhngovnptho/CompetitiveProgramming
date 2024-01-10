@@ -22,13 +22,7 @@ int main(void) {
 	freopen("nvt.inp", "r", stdin);
 	freopen("nvt.out", "w", stdout);
 
-	int tests; cin >> tests;
-	while(tests--) {
-		string coord; cin >> coord;
-		assert(coord.size() == 2);
-		FORE(i, 'a', 'h') if (i != coord[0]) cout << char(i) << coord[1] << "\n";
-		FORE(i, 1, 8) if (i != coord[1] - '0') cout << coord[0] << i << "\n";
-	}
+
 
 	return 0;
 }
