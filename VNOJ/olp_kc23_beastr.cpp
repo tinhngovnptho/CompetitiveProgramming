@@ -18,43 +18,27 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-struct Data {
-	int sumDigt, modD;
-	string value;
-};
-
-const int MAXS = 5011, MAXD = 507;
-
-int d, s;
-bool visited[MAXS][MAXD];
+const int MAXN = 1e6+11;
+int n, q, cnt[MAXN][26];
+string s;
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("findnum");
-	cin >> d >> s;
+	file("nvt");
+	cin >> n >> q >> s;
+	s = " " + s;
 
-	queue<Data> q;
-	q.push({0, 0, ""}); visited[0][0] = 1;
-
-	while(!q.empty()) {
-		Data t = q.front(); q.pop();
-		if (t.sumDigt == s && t.modD == 0) {
-			cout << t.value;
-			exit(0);
-		}
-		if (t.sumDigt > s) continue;
-		Data tmp;
-		FOR(i, 0, 10) {
-			tmp.sumDigt = t.sumDigt + i;
-			tmp.modD = (t.modD * 10 + i) % d;
-			if(visited[tmp.sumDigt][tmp.modD]) continue;
-			visited[tmp.sumDigt][tmp.modD] = 1;
-			tmp.value = t.value + char(i + '0');
-			q.push(tmp);
-		}
+	FOR(i, 1, sz(s)) {
+		REP(c, 26) cnt[i][c] += cnt[i-1][c];
+		cnt[i][s[i] - 'a']++;
 	}
-
-	cout << -1;
+	while(q--) {
+		int l, r; cin >> l >> r;
+		l++; r++;
+		int res = 0;
+		REP(c, 26) if ((cnt[r][c] - cnt[l-1][c]) & 1) res++;
+		cout << res / 2 << "\n";
+	}
 
 	return 0;
 }

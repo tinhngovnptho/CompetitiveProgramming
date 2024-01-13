@@ -18,43 +18,49 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-struct Data {
-	int sumDigt, modD;
-	string value;
+const int MAXN = 1e5 + 11;
+int n, S, a[MAXN];
+
+struct FenwickTree {
+	int bit[2*MAXN+11], n;
+
+	FenwickTree(int _n) {
+		n = _n;
+		memset(bit, 0, sizeof bit);
+	}
+
+	int query(int u) {
+		int res = 0;
+		for ( ; u; u -= u & -u) res += bit[u];
+		return res;
+	}
+
+	void update(int u) {
+		for ( ; u <= 2 * MAXN; u += u & -u) bit[u]++;
+	}
 };
-
-const int MAXS = 5011, MAXD = 507;
-
-int d, s;
-bool visited[MAXS][MAXD];
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("findnum");
-	cin >> d >> s;
+	file("kmedian");
+	cin >> n >> S;
+	FORE(i, 1, n) {
+		cin >> a[i];
+		a[i] = a[i] >= S ? 1 : -1;
+	}
+	FenwickTree t(n);
 
-	queue<Data> q;
-	q.push({0, 0, ""}); visited[0][0] = 1;
-
-	while(!q.empty()) {
-		Data t = q.front(); q.pop();
-		if (t.sumDigt == s && t.modD == 0) {
-			cout << t.value;
-			exit(0);
-		}
-		if (t.sumDigt > s) continue;
-		Data tmp;
-		FOR(i, 0, 10) {
-			tmp.sumDigt = t.sumDigt + i;
-			tmp.modD = (t.modD * 10 + i) % d;
-			if(visited[tmp.sumDigt][tmp.modD]) continue;
-			visited[tmp.sumDigt][tmp.modD] = 1;
-			tmp.value = t.value + char(i + '0');
-			q.push(tmp);
-		}
+	int prefix = 0;
+	long long ans = 0;
+	t.update(0 + MAXN);
+	FORE(i, 1, n) {
+		prefix += a[i];
+		ans += t.query(prefix + MAXN);
+//		cout << prefix << " " << ans << "\n";
+		t.update(prefix + MAXN);
 	}
 
-	cout << -1;
+	cout << ans;
 
 	return 0;
 }
