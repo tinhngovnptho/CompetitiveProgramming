@@ -18,34 +18,27 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 1e5 + 11, INF = 1e6 + 11;
-int a[MAXN], prefix[MAXN], suffix[MAXN], n;
+const int MAXN = 1e5 + 11, MAXVAL = 1e6 + 5;
+
+int n, m, a[MAXN], cnt[MAXVAL], pref[MAXVAL];
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("cau3");
-	cin >> n;
-	FORE(i, 1, n) cin >> a[i];
-
-	prefix[1] = 1;
-	FORE(i, 2, n) {
-		if (a[i] <= a[i - 1]) {
-			prefix[i] = 1;
-		} else prefix[i] = prefix[i - 1] + 1;
-	}
-	prefix[n] = 1;
-	FORDE(i, n - 1, 1) {
-		if (a[i] <= a[i + 1]) {
-			suffix[i] = 1;
-		} else suffix[i] = suffix[i + 1] + 1;
-	}
-	int ans = 0;
+	file("fm");
+	cin >> n >> m;
 	FORE(i, 1, n) {
-//		cout << prefix[i] << " " << suffix[i] << "\n";
-		maximize(ans, prefix[i] + suffix[i] - 1);
+		cin >> a[i];
+		cnt[i]++;
 	}
 
-	cout << ans;
+	FOR(i, 1, MAXVAL) pref[i] = pref[i - 1] + cnt[i];
+
+	long long total = 0;
+	FORE(i, 1, n) if (a[i] < m) {
+		total += pref[m - a[i]];
+	}
+
+	cout << total;
 
 	return 0;
 }

@@ -18,34 +18,35 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 1e5 + 11, INF = 1e6 + 11;
-int a[MAXN], prefix[MAXN], suffix[MAXN], n;
+typedef pair<int, int> pii;
+
+const int MAXN = 1e5 + 11;
+
+int n, dp[MAXN];
+pii a[MAXN];
+
+bool cmp_seg(const pii &a, const pii &b) {
+	if (a.se == b.fi) return a.fi < b.fi;
+	return a.se < b.fi;
+}
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("cau3");
+	file("nvt");
 	cin >> n;
-	FORE(i, 1, n) cin >> a[i];
+	REP(i, n) {
+		cin >> a[i].fi >> a[i].se;
+	}
+	sort(a, a + n);
 
-	prefix[1] = 1;
-	FORE(i, 2, n) {
-		if (a[i] <= a[i - 1]) {
-			prefix[i] = 1;
-		} else prefix[i] = prefix[i - 1] + 1;
-	}
-	prefix[n] = 1;
-	FORDE(i, n - 1, 1) {
-		if (a[i] <= a[i + 1]) {
-			suffix[i] = 1;
-		} else suffix[i] = suffix[i + 1] + 1;
-	}
-	int ans = 0;
-	FORE(i, 1, n) {
-//		cout << prefix[i] << " " << suffix[i] << "\n";
-		maximize(ans, prefix[i] + suffix[i] - 1);
+	REP(i, n) cout << a[i].fi << " " << a[i].se << "\n";
+
+	REP(i, n) dp[i] = 1;
+	REP(i, n) REP(j, i) if (a[i].fi >= a[j].se) {
+		maximize(dp[i], dp[j] + 1);
 	}
 
-	cout << ans;
+	cout << n - dp[n - 1];
 
 	return 0;
 }

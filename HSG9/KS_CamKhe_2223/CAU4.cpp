@@ -1,3 +1,4 @@
+
 // @author: tinhnopro
 #include <bits/stdc++.h>
 
@@ -18,34 +19,33 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 1e5 + 11, INF = 1e6 + 11;
-int a[MAXN], prefix[MAXN], suffix[MAXN], n;
+const int MAXN = 1e5 + 11;
+
+int n, h[MAXN];
+
+void solve(void) {
+	cin >> n;
+	FORE(i, 1, n) cin >> h[i];
+
+	int firstH = h[1], cnt = 1;
+	FORE(i, 2, n) {
+		if (h[i] >= firstH) {
+			firstH = h[i];
+			cnt++;
+		}
+	}
+	cout << cnt << "\n";
+}
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("cau3");
-	cin >> n;
-	FORE(i, 1, n) cin >> a[i];
+	file("nvt");
 
-	prefix[1] = 1;
-	FORE(i, 2, n) {
-		if (a[i] <= a[i - 1]) {
-			prefix[i] = 1;
-		} else prefix[i] = prefix[i - 1] + 1;
+	int tests; cin >> tests;
+	while (tests--) {
+		solve();
 	}
-	prefix[n] = 1;
-	FORDE(i, n - 1, 1) {
-		if (a[i] <= a[i + 1]) {
-			suffix[i] = 1;
-		} else suffix[i] = suffix[i + 1] + 1;
-	}
-	int ans = 0;
-	FORE(i, 1, n) {
-//		cout << prefix[i] << " " << suffix[i] << "\n";
-		maximize(ans, prefix[i] + suffix[i] - 1);
-	}
-
-	cout << ans;
 
 	return 0;
 }
+

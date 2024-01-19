@@ -18,34 +18,27 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 1e5 + 11, INF = 1e6 + 11;
-int a[MAXN], prefix[MAXN], suffix[MAXN], n;
+int d, m, y;
+
+void solve(void) {
+	int days_of_month[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+	cin >> d >> m >> y;
+
+	if (m > 12) {
+		cout << "KHONG\n";
+		return ;
+	}
+	if (y % 400 == 0 || (y % 4 == 0 && y % 100 != 0)) days_of_month[1]++;
+	if (d > days_of_month[m - 1]) cout << "KHONG\n";
+	else cout << "CO\n";
+}
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("cau3");
-	cin >> n;
-	FORE(i, 1, n) cin >> a[i];
+	file("cau1");
 
-	prefix[1] = 1;
-	FORE(i, 2, n) {
-		if (a[i] <= a[i - 1]) {
-			prefix[i] = 1;
-		} else prefix[i] = prefix[i - 1] + 1;
-	}
-	prefix[n] = 1;
-	FORDE(i, n - 1, 1) {
-		if (a[i] <= a[i + 1]) {
-			suffix[i] = 1;
-		} else suffix[i] = suffix[i + 1] + 1;
-	}
-	int ans = 0;
-	FORE(i, 1, n) {
-//		cout << prefix[i] << " " << suffix[i] << "\n";
-		maximize(ans, prefix[i] + suffix[i] - 1);
-	}
-
-	cout << ans;
+	int tests; cin >> tests;
+	while (tests--) solve();
 
 	return 0;
 }
