@@ -18,24 +18,31 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 2e5 + 11;
+const int MAXN = 1e5 + 5;
 
-int cnt[MAXN];
+int n, dp[MAXN];
+vector<pair<int, int> > t[MAXN];
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("chonbong");
-	int n, x, k; cin >> n >> k;
+	file("rehall");
+	cin >> n;
 	REP(i, n) {
-		cin >> x;
-		cnt[x]++;
+		int l, r, c;
+		cin >> l >> r >> c;
+		t[r].push_back(make_pair(l, c));
 	}
 
-	int mx = 0;
-	REP(i, k + 1) maximize(mx, cnt[i]);
+	dp[0] = 0;
 
-	if (mx >= n / 2) cout << (n - mx) * 2;
-	else cout << (n / 2) * 2;
+	FOR(i, 1, MAXN) {
+		dp[i] = dp[i- 1];
+		REP(j, sz(t[i])) {
+			maximize(dp[i], dp[t[i][j].fi - 1] + t[i][j].se);
+		}
+	}
+
+	cout << dp[MAXN-1];
 
 	return 0;
 }

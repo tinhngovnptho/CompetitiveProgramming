@@ -18,24 +18,27 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 2e5 + 11;
-
-int cnt[MAXN];
+typedef long long ll;
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("chonbong");
-	int n, x, k; cin >> n >> k;
-	REP(i, n) {
-		cin >> x;
-		cnt[x]++;
+	file("fadouble");
+	int n; cin >> n;
+
+	ll ans = 0;
+
+	for (ll idx = 1, d = 1; idx <= n; idx += 2, d *= idx) {
+//		cerr << d << " ";
+		ans += d;
 	}
 
-	int mx = 0;
-	REP(i, k + 1) maximize(mx, cnt[i]);
+	for (ll idx = 2, d = 2; idx <= n; idx += 2, d *= idx) {
+//		cerr << d << " ";
+		ans -= d;
+	}
 
-	if (mx >= n / 2) cout << (n - mx) * 2;
-	else cout << (n / 2) * 2;
+	cout << ans;
+
 
 	return 0;
 }
