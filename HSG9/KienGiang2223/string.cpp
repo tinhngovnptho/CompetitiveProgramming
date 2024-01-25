@@ -11,7 +11,6 @@ using namespace std;
 #define FORE(i, a, b) for (int i = (a); i <= (b); ++i)
 #define FORDE(i, a, b) for (int i = (a); i >= (b); --i)
 #define REP(i, n) for (int i = 0; i < (n); ++i)
-#define FORA(it, v) for (__typeof((v).begin()) it = (v).begin(); it != (v).end(); ++it)
 #define file(name) if (fopen(name".inp", "r")) { freopen(name".inp", "r", stdin); freopen(name".out", "w", stdout); }
 
 template <class X, class Y> bool minimize(X &a, const Y &b) { return a > b ? a = b, 1 : 0; }
@@ -19,10 +18,23 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
+string s;
+
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("nvt");
-	|
+	file("string");
+	cin >> s;
+
+	string nums, alpha;
+
+	REP(i, sz(s)) if (isdigit(s[i])) {
+		nums.push_back(s[i]);
+	} else alpha.push_back(s[i]);
+
+	reverse(ALL(alpha));
+	sort(ALL(nums));
+
+	cout << alpha << "\n" << nums;
 
 	return 0;
 }

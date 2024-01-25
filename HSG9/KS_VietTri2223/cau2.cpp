@@ -22,7 +22,14 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
 	file("nvt");
-	|
+	string s; cin >> s;
+
+	int cnt1 = 0, cnt0 = 0;
+
+	FORA(it, s) if (*it == '0') cnt0++; else cnt1++;
+
+	REP(i, cnt1) cout << 1;
+	REP(i, cnt0) cout << 0;
 
 	return 0;
 }

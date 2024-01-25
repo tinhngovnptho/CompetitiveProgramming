@@ -11,7 +11,6 @@ using namespace std;
 #define FORE(i, a, b) for (int i = (a); i <= (b); ++i)
 #define FORDE(i, a, b) for (int i = (a); i >= (b); --i)
 #define REP(i, n) for (int i = 0; i < (n); ++i)
-#define FORA(it, v) for (__typeof((v).begin()) it = (v).begin(); it != (v).end(); ++it)
 #define file(name) if (fopen(name".inp", "r")) { freopen(name".inp", "r", stdin); freopen(name".out", "w", stdout); }
 
 template <class X, class Y> bool minimize(X &a, const Y &b) { return a > b ? a = b, 1 : 0; }
@@ -19,10 +18,24 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
+const int MAX = 2e5 + 11;
+int n, cnt[MAX];
+
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("nvt");
-	|
+	file("bai1");
+	cin >> n;
+	for (int i = 0, x; i < n; ++i) {
+		cin >> x;
+		cnt[x]++;
+	}
+
+	REP(i, MAX) if (cnt[i] == 1) {
+		cout << i;
+		exit(0);
+	}
+
+	cout << -1;
 
 	return 0;
 }
