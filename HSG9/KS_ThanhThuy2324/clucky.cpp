@@ -19,14 +19,37 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
+const int MAX = 1e6 + 11;
+
+int n, min_prime[MAX];
+
+void sieve(int n) {
+	FORE(i, 2, sqrt(n)) if (min_prime[i] == 0) {
+		FORE(j, i, n / i) if (min_prime[i * j] == 0) min_prime[i * j] = i;
+    }
+    FORE(i, 2, n) if (min_prime[i] == 0) min_prime[i] = i;
+}
+
+set<int> factor;
+
 void process(void) {
-	|
+	cin >> n;
+	while (n != 1) {
+		if (factor.count(min_prime[n])) {
+			factor.erase(factor.find(min_prime[n]));
+		} else factor.insert(min_prime[n]);
+		n /= min_prime[n];
+	}
+//	FORA(it, factor) cout << *it << " ";
+//	cout << "\n";
+	cout << (factor.size() ? "NE" : "DA") << "\n";
 }
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
 	file("nvt");
-//	int tests; cin >> tests; while (tests--)
+	sieve(MAX - 1);
+	int tests; cin >> tests; while (tests--)
 	process();
 
 	return 0;

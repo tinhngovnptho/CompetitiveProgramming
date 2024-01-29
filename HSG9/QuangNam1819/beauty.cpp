@@ -19,15 +19,39 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-void process(void) {
-	|
+const int MAX = 1e5 + 11;
+
+vector<int> v;
+bool prime[1001];
+
+void sieve(int n) {
+	memset(prime, -1, sizeof prime);
+	prime[0] = prime[1] = 0;
+	FOR(i, 2, sqrt(n)) if (prime[i]) FOR(j, i, n / i) prime[i * j] = 0;
+}
+
+bool isBeauty(long long x) {
+	int res = 0;
+	while (x) {
+		res += (x % 10) * (x % 10);
+		x /= 10;
+	}
+	return prime[res];
 }
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("nvt");
-//	int tests; cin >> tests; while (tests--)
-	process();
+	file("beauty");
+	sieve(1000);
+	long long i = 11;
+	while (v.size() < MAX) {
+		if (isBeauty(i)) v.push_back(i);
+		i++;
+	}
+
+	int n;
+	while (cin >> n) cout << v[--n] << "\n";
 
 	return 0;
 }
+

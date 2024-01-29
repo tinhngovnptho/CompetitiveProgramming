@@ -19,15 +19,19 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-void process(void) {
-	|
-}
-
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
 	file("nvt");
-//	int tests; cin >> tests; while (tests--)
-	process();
+	int n, sum = 0; cin >> n;
+	REP(i, n) {
+		string s; cin >> s;
+		char c = '9';
+		FOR(i, 1, sz(s)) minimize(c, s[i]);
+		cout << s[0] << c << "\n";
+		sum += c - '0';
+	}
+
+	cout << sum;
 
 	return 0;
 }

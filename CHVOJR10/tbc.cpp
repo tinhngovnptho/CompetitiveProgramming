@@ -19,13 +19,39 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
+const int MAXN = 1e6 + 11;
+
+int n;
+long long k, pref[MAXN], d[MAXN];
+
 void process(void) {
-	|
+	cin >> n >> k;
+	FORE(i, 1, n) {
+		int x; cin >> x;
+		pref[i] = pref[i - 1] + x;
+		d[i] = pref[i] - 1LL * i * k;
+	}
+
+	int ans = 0;
+
+	unordered_map<long long, int> pos;
+
+	pos[d[0]] = 0;
+
+	FORE(i, 1, n) {
+		if (pos.find(d[i]) != pos.end()) {
+			maximize(ans, i - pos[d[i]]);
+		} else {
+			pos[d[i]] = i;
+		}
+	}
+	cout << ans;
+
 }
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("nvt");
+	file("tbc");
 //	int tests; cin >> tests; while (tests--)
 	process();
 

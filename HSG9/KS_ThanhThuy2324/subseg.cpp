@@ -19,8 +19,34 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
+const int MAXN = 1e5 + 11;
+
+int n, k, a[MAXN];
+
+namespace Sub1 {
+	void solve(void) {
+		set<int> s;
+		int cnt = 0;
+		FORE(i, 1, n) FORE(j, i, n) {
+			s.clear();
+			FORE(k, i, j) s.insert(a[i]);
+			if (s.size() <= k) cnt++;
+		}
+		cout << cnt;
+	}
+}
+
+namespace SubAC {
+
+}
+
 void process(void) {
-	|
+	cin >> n >> k;
+	FORE(i, 1, n) cin >> a[i];
+
+	if (n <= 100) Sub1::solve();
+	else if (Sub23::check()) Sub23::solve();
+	else SubAC::solve();
 }
 
 int main(void) {

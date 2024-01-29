@@ -11,7 +11,6 @@ using namespace std;
 #define FORE(i, a, b) for (int i = (a); i <= (b); ++i)
 #define FORDE(i, a, b) for (int i = (a); i >= (b); --i)
 #define REP(i, n) for (int i = 0; i < (n); ++i)
-#define FORA(it, v) for (__typeof((v).begin()) it = (v).begin(); it != (v).end(); ++it)
 #define file(name) if (fopen(name".inp", "r")) { freopen(name".inp", "r", stdin); freopen(name".out", "w", stdout); }
 
 template <class X, class Y> bool minimize(X &a, const Y &b) { return a > b ? a = b, 1 : 0; }
@@ -19,15 +18,27 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-void process(void) {
-	|
-}
+long long n, k;
+int m;
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("nvt");
-//	int tests; cin >> tests; while (tests--)
-	process();
+	file("cau2");
+	cin >> n >> m >> k;
+
+	long long group = 1, cntElm = n / m;
+	FOR(i, 1, m) {
+		if (cntElm >= k) break;
+		k -= cntElm;
+		cntElm = (n - i) / m + 1;
+		group++;
+//		cout << k << " ";
+	}
+
+	if(group == 1) k++;
+//	cout << k << " " << m << " " << group << "\n";
+	cout << (k - 1) * m + (group - 1);
+
 
 	return 0;
 }

@@ -19,14 +19,36 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
+long long n;
+
+long long count0(long long x) {
+	long long res = 5;
+	long long cnt = 0;
+	while (res <= x) {
+		cnt += x / res;
+		res = 1LL * res * 5;
+	}
+	return cnt;
+}
+
 void process(void) {
-	|
+	cin >> n;
+	long long L = 5, R = 1e18 + 11, res = 0;
+	while (L <= R) {
+		long long mid = (L + R) >> 1;
+		if (count0(mid) >= n) {
+			res = mid;
+			R = mid - 1;
+		} else L = mid + 1;
+	}
+
+	cout << res << "\n";
 }
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("nvt");
-//	int tests; cin >> tests; while (tests--)
+	file("timso");
+	int tests; cin >> tests; while (tests--)
 	process();
 
 	return 0;

@@ -19,13 +19,22 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
+int cnt[26];
+
 void process(void) {
-	|
+	int k; string s; cin >> k >> s;
+	string v;
+	REP(i, sz(s)) cnt[s[i] - 'a']++;
+	REP(i, 26) if (cnt[i] % k != 0) {
+		REP(j, cnt[i] % k) v.push_back(char(i + 'a'));
+	}
+
+	cout << (v.size() ? v : "0");
 }
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("nvt");
+	file("XOAXAU");
 //	int tests; cin >> tests; while (tests--)
 	process();
 

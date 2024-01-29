@@ -19,8 +19,29 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
+const int MAXN = 2e5 + 11;
+
+int n, x, a[MAXN];
+
 void process(void) {
-	|
+	cin >> n >> x;
+	REP(i, n) cin >> a[i];
+
+	sort(a, a + n);
+
+	int cnt = 0;
+	int i = 0, j = n - 1;
+
+	while (i <= j) {
+		cnt++;
+		if (a[i] + a[j] <= x) {
+			i++; j--;
+		} else {
+			j--;
+		}
+	}
+
+	cout << cnt;
 }
 
 int main(void) {

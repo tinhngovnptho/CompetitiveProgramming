@@ -19,15 +19,30 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-void process(void) {
-	|
-}
+const int MAXN = 1e6 + 11;
+
+int n;
+long long a[MAXN], k;
+
+long long cnt = 0;
+
+map<long long, int> mp;
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
 	file("nvt");
-//	int tests; cin >> tests; while (tests--)
-	process();
+	cin >> n >> k;
+	FORE(i, 1, n) cin >> a[i];
+
+	sort(a + 1, a + n + 1);
+
+	FORE(i, 1, n) {
+		cnt += mp[k - a[i]];
+		cnt += mp[-k - a[i]];
+		mp[a[i]]++;
+	}
+
+	cout << cnt;
 
 	return 0;
 }
