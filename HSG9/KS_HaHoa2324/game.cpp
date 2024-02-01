@@ -21,39 +21,18 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 const int MAXN = 1e6 + 11;
 
-int n, k, a[MAXN], cnt[MAXN];
-
-void zip(void) {
-	vector<pair<int, int>> v;
-	FORE(i, 1, n) v.push_back(make_pair(a[i], i));
-	sort(ALL(v));
-	int last = 0, cnt = 0;
-	FOR(i, 0, sz(v)) {
-		if (v[i].fi != last) {
-			cnt++;
-			last = v[i].fi;
-		}
-		a[v[i].se] = cnt;
-	}
-}
+int n, a[MAXN];
 
 void process(void) {
-	cin >> n >> k;
-	FORE(i, 1, n) cin >> a[i];
-	int l = 1, cur = 0;
-	long long ans = 0;
-	zip();
-	FORE(r, 1, n) {
-		if (cnt[a[r]] == 0)	cur++;
-		cnt[a[r]]++;
-		while (cur > k) {
-			if (cnt[a[l]] == 1) cur--;
-			cnt[a[l]]--;
-			l++;
-		}
-		ans += r - l + 1;
-	}
-	cout << ans;
+	cin >> n;
+	REP(i, n) cin >> a[i];
+	sort(a, a + n);
+	long long score_player_1 = 0, score_player_2 = 0;
+	REP(i, n) if (i & 1) {
+		score_player_1 += a[i];
+	} else score_player_2 += a[i];
+
+	cout << abs(score_player_1 - score_player_2);
 }
 
 int main(void) {

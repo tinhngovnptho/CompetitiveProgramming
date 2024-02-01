@@ -19,41 +19,25 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 1e6 + 11;
-
-int n, k, a[MAXN], cnt[MAXN];
-
-void zip(void) {
-	vector<pair<int, int>> v;
-	FORE(i, 1, n) v.push_back(make_pair(a[i], i));
-	sort(ALL(v));
-	int last = 0, cnt = 0;
-	FOR(i, 0, sz(v)) {
-		if (v[i].fi != last) {
-			cnt++;
-			last = v[i].fi;
-		}
-		a[v[i].se] = cnt;
+string to_str(long long x) {
+	string res;
+	while (x) {
+		res = char(x % 10 + '0') + res;
+		x /= 10;
 	}
+	return res;
 }
 
 void process(void) {
-	cin >> n >> k;
-	FORE(i, 1, n) cin >> a[i];
-	int l = 1, cur = 0;
-	long long ans = 0;
-	zip();
-	FORE(r, 1, n) {
-		if (cnt[a[r]] == 0)	cur++;
-		cnt[a[r]]++;
-		while (cur > k) {
-			if (cnt[a[l]] == 1) cur--;
-			cnt[a[l]]--;
-			l++;
-		}
-		ans += r - l + 1;
+	int n; cin >> n;
+	string res;
+	long long t = 1;
+	while (sz(res) <= n) {
+		res += to_str(t * t);
+		t++;
 	}
-	cout << ans;
+//	cout << res << "\n";
+	cout << res[n - 1];
 }
 
 int main(void) {

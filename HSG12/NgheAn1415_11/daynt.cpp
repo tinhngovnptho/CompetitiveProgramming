@@ -20,45 +20,30 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 /// END OF TEMPLATE
 
 const int MAXN = 1e6 + 11;
+int k;
+bool prime[MAXN];
 
-int n, k, a[MAXN], cnt[MAXN];
-
-void zip(void) {
-	vector<pair<int, int>> v;
-	FORE(i, 1, n) v.push_back(make_pair(a[i], i));
-	sort(ALL(v));
-	int last = 0, cnt = 0;
-	FOR(i, 0, sz(v)) {
-		if (v[i].fi != last) {
-			cnt++;
-			last = v[i].fi;
-		}
-		a[v[i].se] = cnt;
-	}
+void sieve(int n) {
+	memset(prime, -1, sizeof prime);
+	prime[0] = prime[1] = 0;
+	FORE(i, 2, sqrt(n)) if (prime[i]) FORE(j, i, n / i) prime[i * j] = 0;
 }
 
 void process(void) {
-	cin >> n >> k;
-	FORE(i, 1, n) cin >> a[i];
-	int l = 1, cur = 0;
-	long long ans = 0;
-	zip();
-	FORE(r, 1, n) {
-		if (cnt[a[r]] == 0)	cur++;
-		cnt[a[r]]++;
-		while (cur > k) {
-			if (cnt[a[l]] == 1) cur--;
-			cnt[a[l]]--;
-			l++;
-		}
-		ans += r - l + 1;
+	cin >> k;
+	sieve(MAXN - 1);
+	int x;
+	vector<int> v;
+	while (cin >> x) {
+		if (prime[x]) v.push_back(x);
 	}
-	cout << ans;
+	sort(ALL(v));
+	REP(i, k) cout << v[i] << " ";
 }
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("nvt");
+	file("daynt");
 //	int tests; cin >> tests; while (tests--)
 	process();
 

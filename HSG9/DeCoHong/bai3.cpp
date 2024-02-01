@@ -21,39 +21,21 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 const int MAXN = 1e6 + 11;
 
-int n, k, a[MAXN], cnt[MAXN];
-
-void zip(void) {
-	vector<pair<int, int>> v;
-	FORE(i, 1, n) v.push_back(make_pair(a[i], i));
-	sort(ALL(v));
-	int last = 0, cnt = 0;
-	FOR(i, 0, sz(v)) {
-		if (v[i].fi != last) {
-			cnt++;
-			last = v[i].fi;
-		}
-		a[v[i].se] = cnt;
-	}
-}
+int max_prime[MAXN];
 
 void process(void) {
-	cin >> n >> k;
-	FORE(i, 1, n) cin >> a[i];
-	int l = 1, cur = 0;
-	long long ans = 0;
-	zip();
-	FORE(r, 1, n) {
-		if (cnt[a[r]] == 0)	cur++;
-		cnt[a[r]]++;
-		while (cur > k) {
-			if (cnt[a[l]] == 1) cur--;
-			cnt[a[l]]--;
-			l++;
-		}
-		ans += r - l + 1;
+	int n, k; cin >> n >> k;
+//	iota(max_prime, max_prime + n + 1, 0);
+	REP(i, n + 1) max_prime[i] = i;
+	FORE(i, 2, n / 2) if (max_prime[i] == i) {
+		FORE(j, 2, n / i) max_prime[i * j] = i;
 	}
-	cout << ans;
+	int cnt = 0;
+	FORE(i, 2, n) {
+//		cout << max_prime[i] << " ";
+		if (max_prime[i] <= k) cnt++;
+	}
+	cout << cnt;
 }
 
 int main(void) {

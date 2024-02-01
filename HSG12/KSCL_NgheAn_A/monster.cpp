@@ -19,41 +19,34 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 1e6 + 11;
+const int MAXN = 1e3 + 11, MAXV = 1e4 + 11;
 
-int n, k, a[MAXN], cnt[MAXN];
-
-void zip(void) {
-	vector<pair<int, int>> v;
-	FORE(i, 1, n) v.push_back(make_pair(a[i], i));
-	sort(ALL(v));
-	int last = 0, cnt = 0;
-	FOR(i, 0, sz(v)) {
-		if (v[i].fi != last) {
-			cnt++;
-			last = v[i].fi;
-		}
-		a[v[i].se] = cnt;
-	}
-}
+int n, v, h[MAXN], t[MAXN], dp[MAXN][MAXV];
 
 void process(void) {
-	cin >> n >> k;
-	FORE(i, 1, n) cin >> a[i];
-	int l = 1, cur = 0;
-	long long ans = 0;
-	zip();
-	FORE(r, 1, n) {
-		if (cnt[a[r]] == 0)	cur++;
-		cnt[a[r]]++;
-		while (cur > k) {
-			if (cnt[a[l]] == 1) cur--;
-			cnt[a[l]]--;
-			l++;
-		}
-		ans += r - l + 1;
+	cin >> n >> v;
+	FORE(i, 1, n) cin >> h[i];
+	FORE(i, 1, n) cin >> t[i];
+
+	/// dp[i][j] la tong do hung du neu xet i ten cuop dau va co j dong tien
+	/// dp[i][j] = max(dp[i - 1][j] , dp[i-1][j - t[i]] + h[i])
+
+	memset(dp, -1, sizeof dp);
+	FORE(j, t[1], v) dp[1][j] = h[1];
+	FORE(i, 2, n) FORE(j, 1, v) {
+		if (dp[i - 1][j] >= h[i]) dp[i][j] = dp[i - 1][j];
+		if (dp[i - 1][j - t[i]] != -1) maximize(dp[i][j], dp[i - 1][j - t[i]] + h[i]);
 	}
-	cout << ans;
+//
+//	FORE(i, 1, n) {
+//		FORE(j, 0, v) cout << dp[i][j] << " ";
+//		cout << "\n";
+//	}
+
+	FORE(j, 0, v) if (dp[n][j] != -1) {
+		return void(cout << j);
+	}
+	cout << -1;
 }
 
 int main(void) {

@@ -21,39 +21,46 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 const int MAXN = 1e6 + 11;
 
-int n, k, a[MAXN], cnt[MAXN];
-
-void zip(void) {
-	vector<pair<int, int>> v;
-	FORE(i, 1, n) v.push_back(make_pair(a[i], i));
-	sort(ALL(v));
-	int last = 0, cnt = 0;
-	FOR(i, 0, sz(v)) {
-		if (v[i].fi != last) {
-			cnt++;
-			last = v[i].fi;
-		}
-		a[v[i].se] = cnt;
-	}
-}
+int n;
+long long a[MAXN];
 
 void process(void) {
-	cin >> n >> k;
-	FORE(i, 1, n) cin >> a[i];
-	int l = 1, cur = 0;
-	long long ans = 0;
-	zip();
-	FORE(r, 1, n) {
-		if (cnt[a[r]] == 0)	cur++;
-		cnt[a[r]]++;
-		while (cur > k) {
-			if (cnt[a[l]] == 1) cur--;
-			cnt[a[l]]--;
-			l++;
-		}
-		ans += r - l + 1;
+	cin >> n;
+	FORE(i, 1, n) {
+		cin >> a[i];
 	}
-	cout << ans;
+	int k = 0;
+	long long sum = 0, s = 0;
+	FORE(i, 1, n) {
+		sum += a[i];
+		int cnt = 1, total = 0;
+		FORE(j, i + 1, n) {
+			total += a[j];
+			if (total > sum) {
+				break;
+			} else if (total == sum) {
+				cnt++;
+				total = 0;
+			}
+		}
+		if (total == 0) {
+			if (maximize(k, cnt)) {
+				s = sum;
+			}
+		} else if (cnt == 1 && total < sum) break;
+	}
+	cout << k << " " << s << "\n";
+	long long total = 0;
+	FORE(i, 1, n) {
+		total += a[i];
+		if (total <= s) {
+			cout << a[i] << " ";
+		} else {
+			cout << "\n";
+			cout << a[i] << " ";
+			total = a[i];
+		}
+	}
 }
 
 int main(void) {

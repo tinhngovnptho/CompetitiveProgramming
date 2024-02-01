@@ -5,6 +5,7 @@ using namespace std;
 
 #define fi first
 #define se second
+#define mp make_pair
 #define sz(x) (int)(x).size()
 #define ALL(v) (v).begin(), (v).end()
 #define FOR(i, a, b) for (int i = (a); i < (b); ++i)
@@ -19,41 +20,27 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 1e6 + 11;
-
-int n, k, a[MAXN], cnt[MAXN];
-
-void zip(void) {
-	vector<pair<int, int>> v;
-	FORE(i, 1, n) v.push_back(make_pair(a[i], i));
-	sort(ALL(v));
-	int last = 0, cnt = 0;
-	FOR(i, 0, sz(v)) {
-		if (v[i].fi != last) {
-			cnt++;
-			last = v[i].fi;
-		}
-		a[v[i].se] = cnt;
-	}
+bool isPalin(string s) {
+	REP(i, sz(s)) if (s[i] != s[sz(s) - i - 1]) return false;
+	return true;
 }
 
 void process(void) {
-	cin >> n >> k;
-	FORE(i, 1, n) cin >> a[i];
-	int l = 1, cur = 0;
-	long long ans = 0;
-	zip();
-	FORE(r, 1, n) {
-		if (cnt[a[r]] == 0)	cur++;
-		cnt[a[r]]++;
-		while (cur > k) {
-			if (cnt[a[l]] == 1) cur--;
-			cnt[a[l]]--;
-			l++;
+	string s; cin >> s;
+	vector<pair<int, int> > v;
+	REP(i, sz(s) - 1) {
+		string tmp = s.substr(i + 1) + s.substr(0, i + 1);
+//		cerr << tmp << "\n";
+		if (isPalin(tmp)) {
+			v.push_back(mp(i + 1, i + 2));
 		}
-		ans += r - l + 1;
 	}
-	cout << ans;
+	if (!sz(v)) {
+		cout << -1;
+	} else {
+		cout << sz(v) << "\n";
+		REP(i, sz(v)) cout << v[i].fi << " " << v[i].se << "\n";
+	}
 }
 
 int main(void) {

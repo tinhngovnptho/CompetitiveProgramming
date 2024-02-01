@@ -19,40 +19,46 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 1e6 + 11;
+const int MAXN = 2e5 + 11;
 
-int n, k, a[MAXN], cnt[MAXN];
+int n;
+string s;
 
-void zip(void) {
-	vector<pair<int, int>> v;
-	FORE(i, 1, n) v.push_back(make_pair(a[i], i));
-	sort(ALL(v));
-	int last = 0, cnt = 0;
-	FOR(i, 0, sz(v)) {
-		if (v[i].fi != last) {
-			cnt++;
-			last = v[i].fi;
+struct Hash {
+	static const int MOD = 1e9 + 7;
+	static const int BASE = 311;
+	long long pw[MAXN], h[MAXN];
+
+	void init(const string &s, int len) {
+		s = " " + s;
+		pw[0] = 1, h[0] = 0;
+		FORE(i, 1, len) {
+			pw[i] = pw[i - 1] * BASE % MOD;
+			h[i] = (h[i - 1] * BASE + s[i] - 'a' + 1) % MOD;
 		}
-		a[v[i].se] = cnt;
 	}
+	long long get(long long l, long long r) {
+		return (h[r] - h[l - 1] * pw[r - l + 1] % MOD + MOD * MOD) % MOD;
+	}
+}, hashT;
+
+bool check(int x) {
+
 }
 
 void process(void) {
-	cin >> n >> k;
-	FORE(i, 1, n) cin >> a[i];
-	int l = 1, cur = 0;
-	long long ans = 0;
-	zip();
-	FORE(r, 1, n) {
-		if (cnt[a[r]] == 0)	cur++;
-		cnt[a[r]]++;
-		while (cur > k) {
-			if (cnt[a[l]] == 1) cur--;
-			cnt[a[l]]--;
-			l++;
-		}
-		ans += r - l + 1;
+	cin >> n;
+	cin >> s;
+	hashT.init(s, n);
+	int l = 0, r = sz(s), ans = -1;
+	while (l <= r) {
+		int mid = (l + r) >> 1;
+		if (check(mid)) {
+			ans = mid;
+			l = mid + 1;
+		} else r = mid - 1;
 	}
+
 	cout << ans;
 }
 

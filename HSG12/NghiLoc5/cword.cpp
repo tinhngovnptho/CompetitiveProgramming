@@ -19,46 +19,28 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 1e6 + 11;
-
-int n, k, a[MAXN], cnt[MAXN];
-
-void zip(void) {
-	vector<pair<int, int>> v;
-	FORE(i, 1, n) v.push_back(make_pair(a[i], i));
-	sort(ALL(v));
-	int last = 0, cnt = 0;
-	FOR(i, 0, sz(v)) {
-		if (v[i].fi != last) {
-			cnt++;
-			last = v[i].fi;
-		}
-		a[v[i].se] = cnt;
-	}
+bool isPalin(string s) {
+	REP(i, sz(s) / 2) if (s[i] != s[sz(s) - i - 1]) return false;
+	return true;
 }
 
 void process(void) {
-	cin >> n >> k;
-	FORE(i, 1, n) cin >> a[i];
-	int l = 1, cur = 0;
-	long long ans = 0;
-	zip();
-	FORE(r, 1, n) {
-		if (cnt[a[r]] == 0)	cur++;
-		cnt[a[r]]++;
-		while (cur > k) {
-			if (cnt[a[l]] == 1) cur--;
-			cnt[a[l]]--;
-			l++;
-		}
-		ans += r - l + 1;
+	string s;
+	getline(cin, s);
+	stringstream ss(s);
+	string word;
+	int cnt = 0;
+	while (ss >> word) {
+		cerr << word << " " << isPalin(word) << "\n";
+		if (isPalin(word)) cnt++;
 	}
-	cout << ans;
+
+	cout << cnt;
 }
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("nvt");
+	file("cword");
 //	int tests; cin >> tests; while (tests--)
 	process();
 

@@ -19,41 +19,24 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 1e6 + 11;
+const int MAXN = 1e5 + 11, INF = 2e9 + 11;
 
-int n, k, a[MAXN], cnt[MAXN];
-
-void zip(void) {
-	vector<pair<int, int>> v;
-	FORE(i, 1, n) v.push_back(make_pair(a[i], i));
-	sort(ALL(v));
-	int last = 0, cnt = 0;
-	FOR(i, 0, sz(v)) {
-		if (v[i].fi != last) {
-			cnt++;
-			last = v[i].fi;
-		}
-		a[v[i].se] = cnt;
-	}
-}
+int t, n, k, a[MAXN];
 
 void process(void) {
-	cin >> n >> k;
+	cin >> t >> n >> k;
 	FORE(i, 1, n) cin >> a[i];
-	int l = 1, cur = 0;
-	long long ans = 0;
-	zip();
-	FORE(r, 1, n) {
-		if (cnt[a[r]] == 0)	cur++;
-		cnt[a[r]]++;
-		while (cur > k) {
-			if (cnt[a[l]] == 1) cur--;
-			cnt[a[l]]--;
-			l++;
-		}
-		ans += r - l + 1;
+	sort(a + 1, a + n + 1);
+	a[0] = 0; a[n + 1] = t + 1;
+	int range_led = 0; // -oo
+	FORE(i, 1, n - k + 1) {
+		int range_left = a[i - 1] + 1;
+		int range_right = a[i + k] - 1;
+//		cerr << range_right << " " << range_left << "\n";
+		maximize(range_led, range_right - range_left + 1);
 	}
-	cout << ans;
+
+	cout << range_led;
 }
 
 int main(void) {

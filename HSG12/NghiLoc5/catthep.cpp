@@ -19,40 +19,29 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 1e6 + 11;
+const int MAXN = 5e5 + 11;
 
-int n, k, a[MAXN], cnt[MAXN];
+int n, k, a[MAXN];
 
-void zip(void) {
-	vector<pair<int, int>> v;
-	FORE(i, 1, n) v.push_back(make_pair(a[i], i));
-	sort(ALL(v));
-	int last = 0, cnt = 0;
-	FOR(i, 0, sz(v)) {
-		if (v[i].fi != last) {
-			cnt++;
-			last = v[i].fi;
-		}
-		a[v[i].se] = cnt;
-	}
+bool check(int len) {
+	int cnt = 0;
+	REP(i, n) cnt += a[i] / len;
+	return cnt >= k;
 }
 
 void process(void) {
 	cin >> n >> k;
-	FORE(i, 1, n) cin >> a[i];
-	int l = 1, cur = 0;
-	long long ans = 0;
-	zip();
-	FORE(r, 1, n) {
-		if (cnt[a[r]] == 0)	cur++;
-		cnt[a[r]]++;
-		while (cur > k) {
-			if (cnt[a[l]] == 1) cur--;
-			cnt[a[l]]--;
-			l++;
-		}
-		ans += r - l + 1;
+	REP(i, n) cin >> a[i];
+
+	int lo = 1, hi = 1e9 + 11, ans = 0;
+	while (lo <= hi) {
+		int mid = (lo + hi) >> 1;
+		if (check(mid)) {
+			ans = mid;
+			lo = mid + 1;
+		} else hi = mid - 1;
 	}
+
 	cout << ans;
 }
 
