@@ -19,59 +19,40 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 2e5 + 11;
+const int MAXN = 81 * 81 + 1;
 
 int n;
-string s;
+bool prime[MAXN];
 
-struct Hash {
-	static const int MOD = 1e9 + 7;
-	static const int BASE = 311;
-	long long pw[MAXN], h[MAXN];
-
-	void init(string &s, int len) {
-		s = " " + s;
-		pw[0] = 1, h[0] = 0;
-		FORE(i, 1, len) {
-			pw[i] = pw[i - 1] * BASE % MOD;
-			h[i] = (h[i - 1] * BASE + s[i] - 'a' + 1) % MOD;
-		}
-	}
-	long long get(long long l, long long r) {
-		return (h[r] - h[l - 1] * pw[r - l + 1] % MOD + MOD * MOD) % MOD;
-	}
-} hashT;
-
-map<long long, int> mp;
-
-bool check(int x) {
-	mp.clear();
-	FORE(i, 1, n - x + 1) {
-		long long id = hashT.get(i, i + x - 1);
-		if (mp[id]) return true;
-		else mp[id]++;
-	}
-	return false;
+void sieve(int n) {
+	memset(prime, -1, sizeof prime);
+	FORE(i, 2, sqrt(n)) if (prime[i]) FORE(j, i, n / i) prime[i * j] = 0;
 }
 
-void process(void) {
-	cin >> n >> s;
-	hashT.init(s, n);
-	int l = 0, r = sz(s), ans = -1;
-	while (l <= r) {
-		int mid = (l + r) >> 1;
-		if (check(mid)) {
-			ans = mid;
-			l = mid + 1;
-		} else r = mid - 1;
-	}
+struct Data {
+	int val, s;
+};
 
-	cout << ans;
+void process(void) {
+	cin >> n;
+	sieve(MAXN - 1);
+	queue<Data> q;
+	FORE(i, 1, 9) q.push({i, i * i});
+	while (!q.empty()) {
+		Data t = q.front(); q.pop();
+		if (t.val >= n) continue;
+		if (prime[t.s] && t.val > 10) {
+			cout << t.val << "\n";
+		}
+		FORE(i, 0, 9) {
+			q.push({t.val * 10 + i, t.s + i * i});
+		}
+	}
 }
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("nvt");
+	file("sodep");
 //	int tests; cin >> tests; while (tests--)
 	process();
 

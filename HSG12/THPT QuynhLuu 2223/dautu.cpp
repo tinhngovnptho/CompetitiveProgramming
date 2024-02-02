@@ -19,51 +19,24 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 2e5 + 11;
+const int MAXN = 1e6 + 11;
 
-int n;
-string s;
-
-struct Hash {
-	static const int MOD = 1e9 + 7;
-	static const int BASE = 311;
-	long long pw[MAXN], h[MAXN];
-
-	void init(string &s, int len) {
-		s = " " + s;
-		pw[0] = 1, h[0] = 0;
-		FORE(i, 1, len) {
-			pw[i] = pw[i - 1] * BASE % MOD;
-			h[i] = (h[i - 1] * BASE + s[i] - 'a' + 1) % MOD;
-		}
-	}
-	long long get(long long l, long long r) {
-		return (h[r] - h[l - 1] * pw[r - l + 1] % MOD + MOD * MOD) % MOD;
-	}
-} hashT;
-
-map<long long, int> mp;
-
-bool check(int x) {
-	mp.clear();
-	FORE(i, 1, n - x + 1) {
-		long long id = hashT.get(i, i + x - 1);
-		if (mp[id]) return true;
-		else mp[id]++;
-	}
-	return false;
-}
+int n, s;
+long long pref[MAXN];
 
 void process(void) {
 	cin >> n >> s;
-	hashT.init(s, n);
-	int l = 0, r = sz(s), ans = -1;
-	while (l <= r) {
-		int mid = (l + r) >> 1;
-		if (check(mid)) {
-			ans = mid;
-			l = mid + 1;
-		} else r = mid - 1;
+	FORE(i, 1, n) {
+		int x; cin >> x;
+		pref[i] = pref[i - 1] + x;
+	}
+	map<long long, int> pos;
+	int ans = MAXN;
+	FORE(i, 1, n) {
+		int j = -1;
+		if (pos.count(pref[i] - s)) j = pos[pref[i] - s];
+		if (j != -1) minimize(ans, i - j);
+		pos[pref[i]] = i;
 	}
 
 	cout << ans;

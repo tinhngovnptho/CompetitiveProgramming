@@ -19,54 +19,51 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 2e5 + 11;
+const int MAXN = 1e6 + 11;
 
-int n;
-string s;
+bool prime[MAXN];
+vector<int> list_prime;
 
-struct Hash {
-	static const int MOD = 1e9 + 7;
-	static const int BASE = 311;
-	long long pw[MAXN], h[MAXN];
+void sieve(int n) {
+	memset(prime, -1, sizeof prime);
+	FORE(i, 2, sqrt(n)) if (prime[i]) FORE(j, i, n / i) prime[i * j] = 0;
+	FORE(i, 2, n) if (prime[i]) list_prime.push_back(i);
+}
 
-	void init(string &s, int len) {
-		s = " " + s;
-		pw[0] = 1, h[0] = 0;
-		FORE(i, 1, len) {
-			pw[i] = pw[i - 1] * BASE % MOD;
-			h[i] = (h[i - 1] * BASE + s[i] - 'a' + 1) % MOD;
-		}
+string to_str(int x) {
+	string res;
+	while (x) {
+		res = char(x % 10 + '0') + res;
+		x /= 10;
 	}
-	long long get(long long l, long long r) {
-		return (h[r] - h[l - 1] * pw[r - l + 1] % MOD + MOD * MOD) % MOD;
-	}
-} hashT;
+	return res;
+}
 
-map<long long, int> mp;
+bool isPrime(long long x) {
+	if (x == 2 || x == 3) return 1;
+	if (x % 2 == 0 || x % 3 == 0) return 0;
+	for (int i = 5; i <= sqrt(x); i += 6) if (x % i == 0 || x % (i + 2) == 0) return 0;
+	return x > 1;
+}
 
-bool check(int x) {
-	mp.clear();
-	FORE(i, 1, n - x + 1) {
-		long long id = hashT.get(i, i + x - 1);
-		if (mp[id]) return true;
-		else mp[id]++;
-	}
-	return false;
+bool check(int x, int y) {
+	string s = to_str(x) + to_str(y);
+	long long d = atoll(s.c_str());
+	return isPrime(d);
 }
 
 void process(void) {
-	cin >> n >> s;
-	hashT.init(s, n);
-	int l = 0, r = sz(s), ans = -1;
-	while (l <= r) {
-		int mid = (l + r) >> 1;
-		if (check(mid)) {
-			ans = mid;
-			l = mid + 1;
-		} else r = mid - 1;
+	int k; cin >> k;
+	sieve(MAXN - 1);
+	REP(i, sz(list_prime)) {
+		if (check(list_prime[i], list_prime[i + 1])) {
+			k--;
+			if (!k) {
+				cout << list_prime[i] << list_prime[i + 1];
+				break;
+			}
+		}
 	}
-
-	cout << ans;
 }
 
 int main(void) {
@@ -74,6 +71,5 @@ int main(void) {
 	file("nvt");
 //	int tests; cin >> tests; while (tests--)
 	process();
-
 	return 0;
 }

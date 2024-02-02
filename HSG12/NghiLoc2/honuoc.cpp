@@ -19,54 +19,31 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 2e5 + 11;
-
-int n;
-string s;
-
-struct Hash {
-	static const int MOD = 1e9 + 7;
-	static const int BASE = 311;
-	long long pw[MAXN], h[MAXN];
-
-	void init(string &s, int len) {
-		s = " " + s;
-		pw[0] = 1, h[0] = 0;
-		FORE(i, 1, len) {
-			pw[i] = pw[i - 1] * BASE % MOD;
-			h[i] = (h[i - 1] * BASE + s[i] - 'a' + 1) % MOD;
+void process(void) {
+	int n, t; cin >> n >> t;
+	long long suma = 0, sumb = 0;
+	vector<long long> delta1(t + 1, 0), delta2(t + 1, 0);
+	REP(i, n) {
+		int ai, bi; cin >> ai >> bi;
+		/** Day i = max(0, a1 - b1 * i) + max(0, a2 - b2 * i) + ... + max(0, an - bn * i)
+				  = a1 + a2 + .. + an - i (b1 + b2 + ... + bn) - ((ai1 + ai2 + .. + aik) - i (bi1 + ai2 + ... bik))
+				  = suma - i * sumb - delta1[i] + i * delta2[i]
+			delta[ai / bi + 1] -> delta[t] += ai - i * bi -> update = diff arr
+			d[r + 1] = delta[r + 1] - delta[r] -= x
+			d[l] += x
+		**/
+		suma += ai; sumb += bi;
+		if (ai / bi + 1 <= t) {
+			delta1[ai / bi + 1] += ai;
+			delta2[ai / bi + 1] += bi;
 		}
 	}
-	long long get(long long l, long long r) {
-		return (h[r] - h[l - 1] * pw[r - l + 1] % MOD + MOD * MOD) % MOD;
+	cout << suma << "\n";
+	FORE(i, 1, t) {
+		delta1[i] += delta1[i - 1];
+		delta2[i] += delta2[i - 1];
+		cout << suma - i * sumb - delta1[i] + i * delta2[i] <<  "\n";
 	}
-} hashT;
-
-map<long long, int> mp;
-
-bool check(int x) {
-	mp.clear();
-	FORE(i, 1, n - x + 1) {
-		long long id = hashT.get(i, i + x - 1);
-		if (mp[id]) return true;
-		else mp[id]++;
-	}
-	return false;
-}
-
-void process(void) {
-	cin >> n >> s;
-	hashT.init(s, n);
-	int l = 0, r = sz(s), ans = -1;
-	while (l <= r) {
-		int mid = (l + r) >> 1;
-		if (check(mid)) {
-			ans = mid;
-			l = mid + 1;
-		} else r = mid - 1;
-	}
-
-	cout << ans;
 }
 
 int main(void) {
