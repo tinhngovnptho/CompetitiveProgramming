@@ -19,31 +19,21 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 1e6 + 11;
-int k;
-bool prime[MAXN];
-
-void sieve(int n) {
-	memset(prime, -1, sizeof prime);
-	prime[0] = prime[1] = 0;
-	FORE(i, 2, sqrt(n)) if (prime[i]) FORE(j, i, n / i) prime[i * j] = 0;
-}
-
 void process(void) {
-	cin >> k;
-	sieve(MAXN - 1);
-	int x;
-	vector<int> v;
-	while (cin >> x) {
-		if (prime[x]) v.push_back(x);
+	double n, x; cin >> n >> x;
+	double S = 1, res = x;
+	FORE(i, 1, 2 * n + 1) {
+		S += res;
+		double t = 2 * i + 1;
+		res *= (x * x) / (t * ( t - 1));
 	}
-	sort(ALL(v));
-	REP(i, k) cout << v[i] << " ";
+
+	cout << fixed << setprecision(2) << S;
 }
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("daynt");
+	file("nvt");
 //	int tests; cin >> tests; while (tests--)
 	process();
 

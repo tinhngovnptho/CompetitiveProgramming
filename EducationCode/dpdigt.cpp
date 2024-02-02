@@ -19,29 +19,50 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 2e5 + 11;
+const int MAX_DIGT = 81 * 81;
 
-int n, x, a[MAXN];
+bool prime[MAX_DIGT + 1];
+int a[18];
+long long dp[18][MAX_DIGT];
+
+void sieve(int n) {
+	memset(prime, -1, sizeof prime);
+	prime[0] = prime[1] = 0;
+	FORE(i, 2, sqrt(n)) if (prime[i]) FORE(j, i, n / i) prime[i * j] = 0;
+}
+
+long long calc_dp(int i, bool tight, int sum) {
+	if (i < 0) {
+		if (prime[sum]) return 1;
+		else return 0;
+	}
+	if (!tight && dp[i][sum] >= 0) return dp[i][sum];
+	long long res = 0;
+	int maxc = (tight ? a[i] : 9);
+	REP(i, maxc + 1) {
+		bool new_tight = tight && (i == maxc);
+		res += calc_dp(i - 1, new_tight, sum + i * i);
+	}
+	if (!tight) dp[i][sum] = res;
+	return res;
+}
+
+long long calc(long long x) {
+	int n = 0;
+	while (x) {
+		a[n] = x % 10;
+		x /= 10;
+		n++;
+	}
+	return calc_dp(n - 1, true, 0);
+}
 
 void process(void) {
-	cin >> n >> x;
-	REP(i, n) cin >> a[i];
-
-	sort(a, a + n);
-
-	int cnt = 0;
-	int i = 0, j = n - 1;
-
-	while (i <= j) {
-		cnt++;
-		if (a[i] + a[j] <= x) {
-			i++; j--;
-		} else {
-			j--;
-		}
-	}
-
-	cout << cnt;
+	long long a, b; cin >> a >> b;
+	sieve(MAX_DIGT);
+	memset(dp, -1, sizeof dp);
+	cout << "ok" << "\n";
+	cout << calc(b) - calc(a - 1);
 }
 
 int main(void) {

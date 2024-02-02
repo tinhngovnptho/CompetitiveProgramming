@@ -19,37 +19,31 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAX = 1e6 + 11;
-
-int n, min_prime[MAX];
-
-void sieve(int n) {
-	FORE(i, 2, sqrt(n)) if (min_prime[i] == 0) {
-		FORE(j, i, n / i) if (min_prime[i * j] == 0) min_prime[i * j] = i;
-    }
-    FORE(i, 2, n) if (min_prime[i] == 0) min_prime[i] = i;
-}
-
-set<int> factor;
-
 void process(void) {
-	cin >> n;
-	while (n != 1) {
-		if (factor.count(min_prime[n])) {
-			factor.erase(factor.find(min_prime[n]));
-		} else factor.insert(min_prime[n]);
-		n /= min_prime[n];
+	int n, t; cin >> n >> t;
+	long long suma = 0, sumb = 0;
+	vector<long long> delta(t + 1, 0);
+	REP(i, n) {
+		int ai, bi; cin >> ai >> bi;
+		suma += ai; sumb += bi;
+		int T = ai / bi + 1;
+		if (T <= t) {
+			delta[T] += bi * T - ai;
+		}
 	}
-//	FORA(it, factor) cout << *it << " ";
-//	cout << "\n";
-	cout << (factor.size() ? "NE" : "DA") << "\n";
+
+	cout << suma << "\n";
+	FORE(i, 1, t) {
+		delta[i] += delta[i - 1];
+		cout << suma - sumb * i << " " << delta[i] << ": ";
+		cout << suma - sumb * i + delta[i] << "\n";
+	}
 }
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("nvt");
-	sieve(MAX - 1);
-	int tests; cin >> tests; while (tests--)
+	file("honuoc");
+//	int tests; cin >> tests; while (tests--)
 	process();
 
 	return 0;

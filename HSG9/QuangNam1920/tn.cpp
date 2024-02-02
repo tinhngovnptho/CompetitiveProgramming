@@ -11,7 +11,6 @@ using namespace std;
 #define FORE(i, a, b) for (int i = (a); i <= (b); ++i)
 #define FORDE(i, a, b) for (int i = (a); i >= (b); --i)
 #define REP(i, n) for (int i = 0; i < (n); ++i)
-#define FORA(it, v) for (__typeof((v).begin()) it = (v).begin(); it != (v).end(); ++it)
 #define file(name) if (fopen(name".inp", "r")) { freopen(name".inp", "r", stdin); freopen(name".out", "w", stdout); }
 
 template <class X, class Y> bool minimize(X &a, const Y &b) { return a > b ? a = b, 1 : 0; }
@@ -19,24 +18,14 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-int realDiv(int x) {
-	int res = 0;
-	FORE(i, 2, sqrt(x)) if (x % i == 0) {
-		res += i + x / i - i * (x / i == i);
-	}
-	return res;
-}
-
-void process(void) {
-	int a, b; cin >> a >> b;
-	cout << (realDiv(a) == realDiv(b) ? "YES" : "NO");
-}
-
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
 	file("nvt");
-//	int tests; cin >> tests; while (tests--)
-	process();
+	long long a, b; cin >> a >> b;
+
+	long long lcm = a / __gcd(a, b) * b;
+
+	cout << lcm << "\n" << lcm / a << " " << lcm / b;
 
 	return 0;
 }
