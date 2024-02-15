@@ -22,27 +22,32 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 const int MAXN = 1e6 + 11;
 
 int n;
-long long a[MAXN], k;
+long long k, a[MAXN];
 
-long long cnt = 0;
+void calc(long long &res, long long x) {
+	FOR(i, 1, n) {
+		int l = lower_bound(a + i + 1, a + n + 1, x - a[i]) - a;
+		int r = upper_bound(a + i + 1, a + n + 1, x - a[i]) - a - 1;
+//		cerr << l << " " << r << "\n";
+		res += r - l + 1;
+	}
+}
 
-map<long long, int> mp;
+void process(void) {
+	cin >> n >> k;
+	FORE(i, 1, n) cin >> a[i];
+	sort(a + 1, a + n + 1);
+	long long res = 0;
+	calc(res, k);
+	if (k != 0) calc(res, -k);
+	cout << res;
+}
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
 	file("nvt");
-	cin >> n >> k;
-	FORE(i, 1, n) cin >> a[i];
-
-	sort(a + 1, a + n + 1);
-
-	FORE(i, 1, n) {
-		cnt += mp[k - a[i]];
-		cnt += mp[-k - a[i]];
-		mp[a[i]]++;
-	}
-
-	cout << cnt;
+//	int tests; cin >> tests; while (tests--)
+	process();
 
 	return 0;
 }

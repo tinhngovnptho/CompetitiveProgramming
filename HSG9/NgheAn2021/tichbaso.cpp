@@ -20,27 +20,32 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 /// END OF TEMPLATE
 
 const int MAXN = 1e6 + 11;
+const long long INF = 1e18 + 11;
 
-int n, a[MAXN], b[3];
+int n, a[MAXN], x, y, z;
+long long prod_z[MAXN], prod_yz[MAXN];
+
+void process(void) {
+	cin >> n;
+	FORE(i, 1, n) cin >> a[i];
+	cin >> x >> y >> z;
+
+	prod_z[n + 1] = -INF;
+	FORDE(i, n, 1) prod_z[i] = max(prod_z[i + 1], 1LL * a[i] * z);
+	prod_yz[n] = -INF;
+	FORDE(i, n - 1, 1) prod_yz[i] = max(prod_yz[i + 1], 1LL * a[i] * y + prod_z[i + 1]);
+	long long ans = -INF;
+	FORE(i, 1, n - 2) {
+		maximize(ans, 1LL * a[i] * x + prod_yz[i + 1]);
+	}
+	cout << ans;
+}
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
 	file("nvt");
-	cin >> n;
-	REP(i, n) cin >> a[i];
-	REP(i, 3) cin >> b[i];
-
-	sort(a, a + n);
-	sort(b, b + 3);
-
-	long long ans = 0;
-	REP(i, 3) if (b[i] <= 0) {
-		ans += 1LL * b[i] * a[i];
-	}
-	int r = n - 1;
-	FORDE(i, 2, 0) ans += 1LL * b[i] * a[r--];
-
-	cout << ans;
+//	int tests; cin >> tests; while (tests--)
+	process();
 
 	return 0;
 }

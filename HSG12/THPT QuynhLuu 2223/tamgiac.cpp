@@ -19,7 +19,7 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MAXN = 1e4 + 11;
+const int MAXN = 2e4 + 11;
 
 int n, a[MAXN], b[MAXN], cnt[MAXN];
 

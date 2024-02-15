@@ -20,33 +20,49 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 /// END OF TEMPLATE
 
 const int MAXN = 1e6 + 11;
+const long long INF = 1e18 + 11;
 
-int n, s[MAXN];
+int n;
+long long sum[MAXN];
+long long ans = INF, x, y, z;
 
-int main(void) {
-	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("nvt");
+void update(int i, int j) {
+	if (j < 0) return ;
+	x = sum[i];
+	y = sum[j] - sum[i];
+	z = sum[n] - sum[j];
+	minimize(ans, max(x, max(y, z)) - min(x, min(y, z)));
+}
+
+void process(void) {
 	cin >> n;
 	FORE(i, 1, n) {
 		int x; cin >> x;
-		s[i] = s[i - 1] + x;
+		sum[i] = sum[i - 1] + x;
 	}
 
-	int l = 1, r = n, T = 1e9 + 7;
-
-	while (l < r) {
-		int sumL = s[l];
-		int sumR = s[n] - s[r - 1];
-		int sumMid = s[n] - sumL - sumR;
-		int maxSum = max(sumL, max(sumR, sumMid));
-		int minSum = min(sumL, min(sumR, sumMid));
-		minimize(T, maxSum - minSum);
-		if (sumL > sumR) r--;
-		else l++;
-//		cerr << l << " " << r << "\n";
+	FORE(i, 1, n - 2) {
+		int j = -1, L = i + 2, R = n;
+		while (L <= R) {
+			int mid = (L + R) >> 1;
+			if (sum[mid] - sum[i] > sum[n] - sum[mid]) {
+				j = mid;
+				R = mid - 1;
+			} else L = mid + 1;
+		}
+		update(i, j);
+		if (j - 1 > i) update(i, j - 1);
+//		cerr << j << " " << ans << "\n";
 	}
 
-	cout << T;
+	cout << ans;
+}
+
+int main(void) {
+	ios_base::sync_with_stdio(false); cin.tie(NULL);
+//	file("nvt");
+//	int tests; cin >> tests; while (tests--)
+	process();
 
 	return 0;
 }

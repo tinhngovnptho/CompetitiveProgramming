@@ -25,7 +25,7 @@ int n, m, a[MAXN];
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
 	file("nvt");
-	cin >> m >> n;
+	cin >> n >> m;
 	FORE(i, 1, n) cin >> a[i];
 
 	sort(a + 1, a + n + 1);
