@@ -23,46 +23,62 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 // end of template
 
-const int MAXN = 1e3 + 11;
+const int MAXN = 2e5 + 11;
 
-int n;
-pair<int, int> p[MAXN];
+int q;
+int64 l[MAXN], r[MAXN];
 
-double get_a(int i, int j) {
-	if (p[i].fi == p[j].fi) return -1e9;
-	return (double) (p[i].se - p[j].se) / (p[i].fi - p[j].fi);
+int sumDigt(int64 x) {
+	int res = 0;
+	while (x) {
+		res += x % 10;
+		x /= 10;
+	}
+	return res;
 }
 
-void process(void) {
-	cin >> n;
-	FORE(i, 1, n) cin >> p[i].fi >> p[i].se;
-	int ans = 0, d = 0;
-	double Pa = 0;
-	FORE(i, 1, n) if (p[i].fi == 0) ans++;
-	unordered_map<double, int> mp;
-	FORE(i, 1, n) {
-		mp.clear();
-		FORE(j, 1, n) if(p[i].fi != p[j].fi) mp[get_a(i, j)]++;
-		FORA(it, mp) if (maximize(ans, it->se + 1)) {
-			Pa = it->fi;
-			d = i;
+int calc(int64 x) {
+	int res = 0;
+	FORE(i, 0, 9 * 18) {
+		if (x >= i && sumDigt(x - i) == i) res++;
+	}
+	return res;
+}
+
+namespace SubR {
+	bool check(void) {
+		FORE(i, 1, q) if (r[i] > 1e3) return false;
+		return true;
+	}
+	int calc(int64 x) {
+		int res = 0;
+		FORE(i, 0, 9 * 6) {
+			if (x >= i && sumDigt(x - i) == i) res++;
 		}
+		return res;
 	}
-	vector<pair<int, int> > P;
-	if (d == 0) {
-		FORE(i, 1, n) if (p[i].fi == 0) P.push_back(p[i]);
-	} else {
-		FORE(i, 1, n) if (i == d || get_a(d, i) == Pa) P.push_back(p[i]);
+	const int MAX = 1e3 + 3;
+	int64 f[MAX];
+	void solve(void) {
+		FOR(i, 1, MAX) f[i] = f[i - 1] + calc(i);
+		FORE(i, 1, q) cout << f[r[i]] - f[l[i] - 1] << "\n";
 	}
-//	cout << d << " " << Pa << "\n";
-	sort(ALL(P));
-	cout << sz(P) << "\n";
-	FORA(it, P) cout << it->fi << " " << it->se << "\n";
+};
+
+void process(void) {
+	cin >> q;
+	FORE(i, 1, q) cin >> l[i] >> r[i];
+	if (SubR::check()) return SubR::solve();
+	FORE(i, 1, q) {
+		int64 L = l[i], R = r[i], ans = 0;
+		for (int64 j = L; j <= R; ++j) ans += calc(j);
+		cout << ans << "\n";
+	}
 }
 
 int main(void) {
 	cin.tie(0)->sync_with_stdio(0);
-	file("ptset");
+	file("gennum");
 	int t = 1; // cin >> t;
 	while (t--) {
 		process();

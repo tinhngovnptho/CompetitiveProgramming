@@ -23,46 +23,40 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 // end of template
 
-const int MAXN = 1e3 + 11;
+const int MAXN = 1e5 + 11;
 
-int n;
-pair<int, int> p[MAXN];
+int n, q, a[MAXN];
+set<int> seg[4 * MAXN];
 
-double get_a(int i, int j) {
-	if (p[i].fi == p[j].fi) return -1e9;
-	return (double) (p[i].se - p[j].se) / (p[i].fi - p[j].fi);
+void add(int id, int l, int r, int pos, int val) {
+	seg[id].insert(val);
+	if (l == r) return ;
+	int mid = (l + r) >> 1;
+	if (p <= mid) add(id << 1, l, mid, pos, val);
+	else add(id << 1 | 1, mid + 1, r, pos, val);
+}
+
+int query(int id, int l, int r, int u, int v, int k) {
+	if (l > v || r < u) return -INF;
+	if (u <= l && r <= v) return
 }
 
 void process(void) {
-	cin >> n;
-	FORE(i, 1, n) cin >> p[i].fi >> p[i].se;
-	int ans = 0, d = 0;
-	double Pa = 0;
-	FORE(i, 1, n) if (p[i].fi == 0) ans++;
-	unordered_map<double, int> mp;
-	FORE(i, 1, n) {
-		mp.clear();
-		FORE(j, 1, n) if(p[i].fi != p[j].fi) mp[get_a(i, j)]++;
-		FORA(it, mp) if (maximize(ans, it->se + 1)) {
-			Pa = it->fi;
-			d = i;
+	cin >> n >> q;
+	FORE(i, 1, n) cin >> a[i];
+	while (q--) {
+		int type; cin >> type;
+		if (type == 1) {
+			int pos, val; cin >> pos >> val;
+		} else {
+			int L, R, k; cin >> L >> R >> k;
 		}
 	}
-	vector<pair<int, int> > P;
-	if (d == 0) {
-		FORE(i, 1, n) if (p[i].fi == 0) P.push_back(p[i]);
-	} else {
-		FORE(i, 1, n) if (i == d || get_a(d, i) == Pa) P.push_back(p[i]);
-	}
-//	cout << d << " " << Pa << "\n";
-	sort(ALL(P));
-	cout << sz(P) << "\n";
-	FORA(it, P) cout << it->fi << " " << it->se << "\n";
 }
 
 int main(void) {
 	cin.tie(0)->sync_with_stdio(0);
-	file("ptset");
+	file("segtree_itds1");
 	int t = 1; // cin >> t;
 	while (t--) {
 		process();

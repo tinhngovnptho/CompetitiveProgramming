@@ -19,42 +19,24 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 /// END OF TEMPLATE
 
-const int MOD = 1e9;
+string rev(string s) {
+	reverse(ALL(s));
+	return s;
+}
 
 void process(void) {
-	long long L, R; cin >> L >> R;
-	vector<long long> f(R - L + 1, 0);
-	FORE(i, 1, sqrt(L)) {
-		long long v = L / i, u = L / (i + 1);
-		f[0] += 1LL * (v - u) * i;
-		if (i != L / i) {
-			long long j = L / i;
-			v = L / j;
-			u = L / (j + 1);
-			f[0] += 1LL * (v - u) * j;
-		}
+	string s; cin >> s;
+	string r = rev(s);
+	FOR(i, 1, sz(s)) {
+		if (abs(s[i] - s[i - 1]) != abs(r[i] - r[i - 1])) return void(cout << "NO\n");
 	}
-	f[0] %= MOD;
-	vector<long long> cnt(R - L + 1, 0);
-	for (long long i = 1; i <= sqrt(R); ++i) {
-		for (long long j = max(i * i, (L + i - 1) / i * i); j <= R; j += i) {
-			cnt[j - L] += 2;
-			if (j == i * i) cnt[j - L]--;
-		}
-	}
-	long long ans = f[0];
-	FOR(i, 1, R - L + 1) {
-		f[i] = f[i - 1] + cnt[i];
-		f[i] %= MOD;
-		ans = (ans + f[i]) % MOD;
-	}
-	cout << ans;
+	cout << "YES\n";
 }
 
 int main(void) {
 	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	file("range");
-//	int tests; cin >> tests; while (tests--)
+	file("HAPPYSTR");
+	int tests; cin >> tests; while (tests--)
 	process();
 
 	return 0;

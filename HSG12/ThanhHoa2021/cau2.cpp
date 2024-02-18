@@ -23,46 +23,24 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 // end of template
 
-const int MAXN = 1e3 + 11;
+const int MAXN = 1e6 + 11;
 
-int n;
-pair<int, int> p[MAXN];
-
-double get_a(int i, int j) {
-	if (p[i].fi == p[j].fi) return -1e9;
-	return (double) (p[i].se - p[j].se) / (p[i].fi - p[j].fi);
-}
+int n, x, cnt[MAXN];
 
 void process(void) {
 	cin >> n;
-	FORE(i, 1, n) cin >> p[i].fi >> p[i].se;
-	int ans = 0, d = 0;
-	double Pa = 0;
-	FORE(i, 1, n) if (p[i].fi == 0) ans++;
-	unordered_map<double, int> mp;
-	FORE(i, 1, n) {
-		mp.clear();
-		FORE(j, 1, n) if(p[i].fi != p[j].fi) mp[get_a(i, j)]++;
-		FORA(it, mp) if (maximize(ans, it->se + 1)) {
-			Pa = it->fi;
-			d = i;
-		}
+	REP(i, n) {
+		cin >> x;
+		cnt[x]++;
 	}
-	vector<pair<int, int> > P;
-	if (d == 0) {
-		FORE(i, 1, n) if (p[i].fi == 0) P.push_back(p[i]);
-	} else {
-		FORE(i, 1, n) if (i == d || get_a(d, i) == Pa) P.push_back(p[i]);
-	}
-//	cout << d << " " << Pa << "\n";
-	sort(ALL(P));
-	cout << sz(P) << "\n";
-	FORA(it, P) cout << it->fi << " " << it->se << "\n";
+	int ans = 1;
+	REP(i, MAXN) maximize(ans, cnt[i]);
+	cout << ans;
 }
 
 int main(void) {
 	cin.tie(0)->sync_with_stdio(0);
-	file("ptset");
+	file("cau2");
 	int t = 1; // cin >> t;
 	while (t--) {
 		process();
