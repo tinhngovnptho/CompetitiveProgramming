@@ -7,7 +7,7 @@ using namespace std;
 #define mp make_pair
 #define sz(s) (int)(s).size()
 #define ALL(v) (v).begin(), (v).end()
-#define FOR(i, a, b) for (int i = (a); i < (b); ++i)
+#define FOR(i, a, b) for (int i = (a), _b = (b); i < _b; ++i)
 #define FORE(i, a, b) for (int i = (a); i <= (b); ++i)
 #define FORDE(i, a, b) for (int i = (a); i >= (b); --i)
 #define REP(i, n) for (int i = 0; i < (n); ++i)
@@ -23,28 +23,24 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 // end of template
 
-const int MAX = 5011;
+const int MAXN = 3e6 + 11, FIXED = 2e6 + 11;
 
-int n, cnt[MAX];
+int n, k, a[MAXN], cnt[MAXN];
 
 void process(void) {
-	cin >> n;
-	REP(i, n) {
-		int x; cin >> x;
-		cnt[x]++;
-	}
+	cin >> n >> k;
+	FORE(i, 1, n) cin >> a[i];
 	int64 ans = 0;
-	FOR(i, 1, MAX) if (cnt[i]) {
-		ans += 1LL * cnt[i] * (cnt[i] - 1) * (cnt[i] - 2);
-		FOR(j, i + 1, MAX) if (j + (j - i) < MAX && cnt[j] && cnt[j + (j - i)]) ans += 1LL * cnt[i] * cnt[j] * cnt[j + (j - i)];
-
+	FORE(i, 1, n) {
+		if (cnt[k - a[i] + FIXED]) ans += cnt[k - a[i] + FIXED];
+		cnt[a[i] + FIXED]++;
 	}
 	cout << ans;
 }
 
 int main(void) {
 	cin.tie(0)->sync_with_stdio(0);
-	file("triple");
+	file("bai3");
 	int t = 1; // cin >> t;
 	while (t--) {
 		process();

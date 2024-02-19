@@ -7,7 +7,7 @@ using namespace std;
 #define mp make_pair
 #define sz(s) (int)(s).size()
 #define ALL(v) (v).begin(), (v).end()
-#define FOR(i, a, b) for (int i = (a); i < (b); ++i)
+#define FOR(i, a, b) for (int i = (a), _b = (b); i < _b; ++i)
 #define FORE(i, a, b) for (int i = (a); i <= (b); ++i)
 #define FORDE(i, a, b) for (int i = (a); i >= (b); --i)
 #define REP(i, n) for (int i = 0; i < (n); ++i)
@@ -23,28 +23,42 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 // end of template
 
-const int MAX = 5011;
+const int MAXN = 1e5 + 11;
 
-int n, cnt[MAX];
+char a[MAXN][55];
+int n, k, pref[MAXN], cnt[MAXN];
+int64 m;
+
+int64 Pow(string s, int64 m, int k) {
+	int a = 0;
+	REP(i, sz(s)) {
+		a = (1LL * a * 10  % k + (s[i] - '0')) % k;
+	}
+	int res = 1;
+	for (; m; m /= 2, a = 1LL * a * a % k)
+		if (m & 1) res = 1LL * res * a % k;
+	return res;
+}
 
 void process(void) {
-	cin >> n;
-	REP(i, n) {
-		int x; cin >> x;
-		cnt[x]++;
+	cin >> n >> m >> k;
+	FORE(i, 1, n) cin >> a[i];
+	pref[0] = 0;
+	FORE(i, 1, n) {
+		pref[i] = (pref[i - 1] + Pow(a[i], m, k)) % k;
 	}
+	cnt[0] = 1;
 	int64 ans = 0;
-	FOR(i, 1, MAX) if (cnt[i]) {
-		ans += 1LL * cnt[i] * (cnt[i] - 1) * (cnt[i] - 2);
-		FOR(j, i + 1, MAX) if (j + (j - i) < MAX && cnt[j] && cnt[j + (j - i)]) ans += 1LL * cnt[i] * cnt[j] * cnt[j + (j - i)];
-
+	FORE(i, 1, n) {
+		ans += cnt[pref[i]];
+		cnt[pref[i]]++;
 	}
 	cout << ans;
 }
 
 int main(void) {
 	cin.tie(0)->sync_with_stdio(0);
-	file("triple");
+	file("bai5");
 	int t = 1; // cin >> t;
 	while (t--) {
 		process();

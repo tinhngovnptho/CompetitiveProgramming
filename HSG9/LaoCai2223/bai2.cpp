@@ -7,7 +7,7 @@ using namespace std;
 #define mp make_pair
 #define sz(s) (int)(s).size()
 #define ALL(v) (v).begin(), (v).end()
-#define FOR(i, a, b) for (int i = (a); i < (b); ++i)
+#define FOR(i, a, b) for (int i = (a), _b = (b); i < _b; ++i)
 #define FORE(i, a, b) for (int i = (a); i <= (b); ++i)
 #define FORDE(i, a, b) for (int i = (a); i >= (b); --i)
 #define REP(i, n) for (int i = 0; i < (n); ++i)
@@ -23,28 +23,51 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 // end of template
 
-const int MAX = 5011;
+int get_len(int x) {
+	int res = 0;
+	for (; x; x /= 10) res++;
+	return res;
+}
 
-int n, cnt[MAX];
+int pow10(int l) {
+	int res = 1;
+	REP(i, l) res *= 10;
+	return res;
+}
+
+int rev(int x) {
+	int res = 0;
+	for (; x; x /= 10) res = res * 10 + x % 10;
+	return res;
+}
+
+int isValid(int x) {
+	int cnt = 0;
+	for (int i = 2; i * i <= x; ++i) if (x % i == 0) {
+		cnt++;
+		while (x % i == 0) x /= i;
+	}
+	if (x > 1) cnt++;
+	return cnt >= 3;
+}
 
 void process(void) {
-	cin >> n;
-	REP(i, n) {
-		int x; cin >> x;
-		cnt[x]++;
+	int a, b; cin >> a >> b;
+	int cnt = 0;
+	FORE(i, 1, 1e4) {
+		int len = get_len(i);
+		int dx1 = i * pow10(len) + rev(i);
+		int dx2 = i * pow10(len - 1) + rev(i / 10);
+		if (dx2 > b) break;
+		if (a <= dx2 && isValid(dx2)) cnt++;
+		if (a <= dx1 && dx1 <= b && isValid(dx1)) cnt++;
 	}
-	int64 ans = 0;
-	FOR(i, 1, MAX) if (cnt[i]) {
-		ans += 1LL * cnt[i] * (cnt[i] - 1) * (cnt[i] - 2);
-		FOR(j, i + 1, MAX) if (j + (j - i) < MAX && cnt[j] && cnt[j + (j - i)]) ans += 1LL * cnt[i] * cnt[j] * cnt[j + (j - i)];
-
-	}
-	cout << ans;
+	cout << cnt;
 }
 
 int main(void) {
 	cin.tie(0)->sync_with_stdio(0);
-	file("triple");
+	file("bai2");
 	int t = 1; // cin >> t;
 	while (t--) {
 		process();

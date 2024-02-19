@@ -7,7 +7,7 @@ using namespace std;
 #define mp make_pair
 #define sz(s) (int)(s).size()
 #define ALL(v) (v).begin(), (v).end()
-#define FOR(i, a, b) for (int i = (a); i < (b); ++i)
+#define FOR(i, a, b) for (int i = (a), _b = (b); i < _b; ++i)
 #define FORE(i, a, b) for (int i = (a); i <= (b); ++i)
 #define FORDE(i, a, b) for (int i = (a); i >= (b); --i)
 #define REP(i, n) for (int i = 0; i < (n); ++i)
@@ -23,28 +23,38 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 // end of template
 
-const int MAX = 5011;
+const int MAXN = 1e6 + 11;
 
-int n, cnt[MAX];
+int n, k, a[MAXN];
+bool prime[MAXN];
+
+void sieve(int n) {
+	memset(prime, -1, sizeof prime);
+	for (int i = 2; i * i <= n; ++i) if (prime[i]) {
+		FORE(j, i, n / i) prime[i * j] = 0;
+	}
+}
 
 void process(void) {
-	cin >> n;
-	REP(i, n) {
-		int x; cin >> x;
-		cnt[x]++;
+	cin >> n >> k;
+	FORE(i, 1, n) cin >> a[i];
+	sieve(MAXN - 1);
+	int cnt = 0;
+	FORE(i, 1, k) if (prime[a[i]]) cnt++;
+	int res = 0, ans = 0;
+	FORE(i, 2, k + 1) {
+		if (prime[a[i - 1]]) cnt--;
+		if (prime[a[i + k - 1]]) cnt++;
+		if (maximize(res, cnt)) {
+			ans = i;
+		}
 	}
-	int64 ans = 0;
-	FOR(i, 1, MAX) if (cnt[i]) {
-		ans += 1LL * cnt[i] * (cnt[i] - 1) * (cnt[i] - 2);
-		FOR(j, i + 1, MAX) if (j + (j - i) < MAX && cnt[j] && cnt[j + (j - i)]) ans += 1LL * cnt[i] * cnt[j] * cnt[j + (j - i)];
-
-	}
-	cout << ans;
+	cout << ans << " " << ans + k - 1;
 }
 
 int main(void) {
 	cin.tie(0)->sync_with_stdio(0);
-	file("triple");
+	file("bai4");
 	int t = 1; // cin >> t;
 	while (t--) {
 		process();
