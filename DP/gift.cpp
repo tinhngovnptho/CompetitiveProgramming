@@ -22,9 +22,20 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 // end of template
 
+const int MAXN = 1e6 + 11;
+
+int n, k, a[MAXN], dp[MAXN];
 
 void process(void) {
-	|
+	cin >> n >> k;
+	FORE(i, 1, n) cin >> a[i];
+	int res = 0;
+	FORE(i, 1, n) {
+		dp[i] = 1;
+		FOR(j, 1, i) if (a[i] >= a[j] + k) maximize(dp[i], dp[j] + 1);
+		maximize(res, dp[i]);
+	}
+	cout << res;
 }
 
 int main(void) {

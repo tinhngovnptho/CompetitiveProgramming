@@ -22,14 +22,28 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 // end of template
 
+const int MAXN = 1e4 + 11;
+
+int n;
+string a[MAXN];
+
+int Mod9(string s) {
+	int res = 0;
+	REP(i, sz(s)) res = (res + (s[i] - '0')) % 9;
+	return res;
+}
 
 void process(void) {
-	|
+	cin >> n;
+	FORE(i, 1, n) cin >> a[i];
+	int cnt = 0;
+	FORE(i, 1, n) if (a[i].back() == '0' && Mod9(a[i]) == 0) cnt++;
+	cout << cnt;
 }
 
 int main(void) {
 	cin.tie(0)->sync_with_stdio(0);
-	file("");
+	file("cau1");
 	int t = 1;
 //	cin >> t;
 	while (t--) process();
