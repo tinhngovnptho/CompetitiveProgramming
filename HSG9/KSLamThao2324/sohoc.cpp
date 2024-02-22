@@ -22,32 +22,29 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 // end of template
 
-const int MAXN = 1001, INF = 2e9 + 11;
+const int MAXN = 1e6 + 11;
 
-int n, m, dp[MAXN];
-vector<pair<int, int> > t[MAXN];
+bool prime[MAXN + 1];
 
+void sieve(int n) {
+	memset(prime, -1, sizeof prime);
+	prime[0] = prime[1] = 0;
+	for (int i = 2; i * i <= n; ++i) if (prime[i]) {
+		FORE(j, i, n / i) prime[i * j] = 0;
+	}
+}
 
 void process(void) {
-	cin >> n >> m;
-	REP(i, m) {
-		int l, r, c; cin >> l >> r >> c;
-		t[r].push_back(mp(l, c));
-	}
-	REP(j, n + 1) dp[j] = INF;
-	REP(j, sz(t[0])) minimize(dp[0], t[0][j].se);
-	FORE(i, 1, n) {
-		REP(k, sz(t[i])) {
-			if (t[i][k].fi == 0) minimize(dp[i], t[i][k].se);
-			FOR(j, max(t[i][k].fi - 1, 0) , i) if (dp[j] != INF) minimize(dp[i], dp[j] + t[i][k].se);
-		}
-	}
-	cout << dp[n];
+	int64 n; cin >> n;
+	int64 lim = sqrt(n);
+	sieve(MAXN);
+	for (; lim * lim < n || !prime[lim]; lim++);
+	cout << lim * lim;
 }
 
 int main(void) {
 	cin.tie(0)->sync_with_stdio(0);
-	file("vannghe");
+	file("sohoc");
 	int t = 1;
 //	cin >> t;
 	while (t--) process();

@@ -21,9 +21,9 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 typedef pair<int, int> pii;
 
-const int MAXN = 2e5 + 11;
+const int MAXN = 2e5 + 11, INF = 1e9 + 11;
 
-int n;
+int n, lis[MAXN];
 pii a[MAXN];
 
 bool cmp(const pii &a, const pii &b) {
@@ -35,16 +35,12 @@ void process(void) {
 	cin >> n;
 	REP(i, n) cin >> a[i].fi >> a[i].se;
 	sort(a, a + n, cmp);
-	vector<int> lis;
-	lis.push_back(a[0].se);
-	FOR(i, 1, n) {
-		if (lis.back() < a[i].se) lis.push_back(a[i].se);
-		else {
-			int l = lower_bound(ALL(lis), a[i].se) - lis.begin();
-			lis[l] = a[i].se;
-		}
+	REP(i, n + 1) lis[i] = INF;
+	REP(i, n) {
+		int l = lower_bound(lis, lis + n, a[i].se) - lis;
+		lis[l] = a[i].se;
 	}
-	cout << sz(lis);
+	REP(i, n) if (lis[i] == INF) return void(cout << i);
 }
 
 int main(void) {
