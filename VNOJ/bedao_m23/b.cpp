@@ -22,38 +22,14 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 // end of template
 
-int x[4] = {9, 1, 3, 7};
-string y[9] = {"99", "11", "13", "33", "35", "55", "57", "77", "79"};
-
-void solve1(int64 k) {
-	if (k <= 5) {
-		cout << 2 * k - 1;
-		return ;
-	}
-	k -= 5;
-	int d = k % 9;
-	k = k / 9 - (k % 9 == 0);
-	cout << y[d][0];
-	REP(i, k) cout << 0;
-	cout << y[d][1];
-}
-
-void solve2(int64 k) {
-	int d = k % 4;
-	if (k > 4) cout << k / 4 - (k % 4 == 0);
-	cout << x[d];
-}
 
 void process(void) {
-	int64 k; cin >> k;
-	solve1(k);
-	cout << "\n";
-	solve2(k);
+
 }
 
 int main(void) {
 	cin.tie(0)->sync_with_stdio(0);
-	file("bai5");
+	file("b");
 	int t = 1;
 //	cin >> t;
 	while (t--) process();
