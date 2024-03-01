@@ -22,48 +22,32 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 // end of template
 
-int x[4] = {9, 1, 3, 7};
+uint64 n, a, b;
 
-int rev(int x) {
-	int res = 0;
-	for (; x; x /= 10) res = res * 10 + x % 10;
-	return res;
+uint64 gcd(uint64 a, uint64 b) {
+	uint64 r;
+	while (b) {
+		r = a % b;
+		a = b;
+		b = r;
+	}
+	return a;
 }
 
-void solve1(int64 k) {
-	if (k == 1) {
-		cout << 1;
-		return ;
-	}
-	vector<int> a;
-	a.push_back(1);
-	while (a.back() != 10) {
-		a.push_back(rev(a.back()) + 2);
-	}
-//	REP(i, sz(a)) cout << a[i] << "\n";
-	int n = a.size() - 1;
-	k = k % n;
-//	cout << k << " ";
-	cout << a[k - 1];
-}
-
-void solve2(int64 k) {
-	int d = k % 4;
-	if (k > 4) cout << k / 4 - (k % 4 == 0);
-	cout << x[d];
+uint64 lcm(uint64 a, uint64 b) {
+	return a / gcd(a, b) * b;
 }
 
 void process(void) {
-	int64 k; cin >> k;
-	int64 res = 1;
-	solve1(k);
-	cout << "\n";
-	solve2(k);
+	cin >> n >> a >> b;
+	uint64 ans = n / a + n / b;
+	if (lcm(a, b) <= n && lcm(a, b) > 0) ans -= n / lcm(a, b);
+	cout << ans;
 }
 
 int main(void) {
 	cin.tie(0)->sync_with_stdio(0);
-	file("bai5");
+	file("cau1");
 	int t = 1;
 //	cin >> t;
 	while (t--) process();
@@ -71,3 +55,4 @@ int main(void) {
 }
 
 // author: tinhnopro
+

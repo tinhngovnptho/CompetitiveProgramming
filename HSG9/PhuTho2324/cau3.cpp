@@ -22,48 +22,45 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 // end of template
 
-int x[4] = {9, 1, 3, 7};
+const int MOD = 20232024;
 
-int rev(int x) {
-	int res = 0;
-	for (; x; x /= 10) res = res * 10 + x % 10;
+int64 Mul(int64 a, int64 b) {
+	b %= MOD;
+	int64 c = a * b;
+	c %= MOD;
+	return c;
+}
+
+int64 Pow(int64 a, int64 b) {
+	int64 res = 1;
+	for (; b; b /= 2, a = Mul(a, a))
+		if (b & 1LL) res = Mul(res, a);
 	return res;
 }
 
-void solve1(int64 k) {
-	if (k == 1) {
+int64 n, t;
+vector<int64> A;
+
+void process(void) {
+	cin >> n;
+	t = n;
+	FORE(i, 2, sqrt(n)) if (n % i == 0) {
+		A.push_back(i);
+		while (n % i == 0) n /= i;
+	}
+	if (n > 1 && n != t) A.push_back(n);
+	if (A.size() == 0) {
 		cout << 1;
 		return ;
 	}
-	vector<int> a;
-	a.push_back(1);
-	while (a.back() != 10) {
-		a.push_back(rev(a.back()) + 2);
-	}
-//	REP(i, sz(a)) cout << a[i] << "\n";
-	int n = a.size() - 1;
-	k = k % n;
-//	cout << k << " ";
-	cout << a[k - 1];
-}
-
-void solve2(int64 k) {
-	int d = k % 4;
-	if (k > 4) cout << k / 4 - (k % 4 == 0);
-	cout << x[d];
-}
-
-void process(void) {
-	int64 k; cin >> k;
 	int64 res = 1;
-	solve1(k);
-	cout << "\n";
-	solve2(k);
+	REP(i, sz(A)) res = Mul(res, Pow(3, A[i]) + A[i]);
+	cout << res;
 }
 
 int main(void) {
 	cin.tie(0)->sync_with_stdio(0);
-	file("bai5");
+	file("cau3");
 	int t = 1;
 //	cin >> t;
 	while (t--) process();

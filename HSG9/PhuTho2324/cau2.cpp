@@ -22,48 +22,48 @@ template <class X, class Y> bool maximize(X &a, const Y &b) { return a < b ? a =
 
 // end of template
 
-int x[4] = {9, 1, 3, 7};
+const int MAXN = 3e5 + 11;
 
-int rev(int x) {
-	int res = 0;
-	for (; x; x /= 10) res = res * 10 + x % 10;
-	return res;
-}
+int n, a[MAXN], k;
 
-void solve1(int64 k) {
-	if (k == 1) {
-		cout << 1;
-		return ;
+namespace Sub1 {
+	void solve() {
+		int64 ans = 0;
+		FORE(i, 1, n) {
+			int cnt = 0;
+			FORE(j, i + 1, min(n, i + k)) if (a[i] == a[j]) cnt++;
+			ans += cnt;
+		}
+		cout << ans;
 	}
-	vector<int> a;
-	a.push_back(1);
-	while (a.back() != 10) {
-		a.push_back(rev(a.back()) + 2);
-	}
-//	REP(i, sz(a)) cout << a[i] << "\n";
-	int n = a.size() - 1;
-	k = k % n;
-//	cout << k << " ";
-	cout << a[k - 1];
-}
+};
 
-void solve2(int64 k) {
-	int d = k % 4;
-	if (k > 4) cout << k / 4 - (k % 4 == 0);
-	cout << x[d];
-}
+namespace Sub2 {
+	int cnt[MAXN];
+	void solve() {
+		int64 ans = 0;
+		for (int i = 1, j = 1; i <= n; ++i) {
+			if (cnt[a[i]]) cnt[a[i]]--;
+			while (j + 1 <= n && j + 1 - i <= k) {
+				j++;
+				cnt[a[j]]++;
+			}
+			ans += cnt[a[i]];
+		}
+		cout << ans;
+	}
+};
 
 void process(void) {
-	int64 k; cin >> k;
-	int64 res = 1;
-	solve1(k);
-	cout << "\n";
-	solve2(k);
+	cin >> n >> k;
+	FORE(i, 1, n) cin >> a[i];
+	if (n <= 5e3) return void(Sub1::solve());
+	Sub2::solve();
 }
 
 int main(void) {
 	cin.tie(0)->sync_with_stdio(0);
-	file("bai5");
+	file("");
 	int t = 1;
 //	cin >> t;
 	while (t--) process();
