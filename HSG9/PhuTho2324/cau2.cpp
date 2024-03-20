@@ -63,7 +63,7 @@ void process(void) {
 
 int main(void) {
 	cin.tie(0)->sync_with_stdio(0);
-	file("");
+	file("cau2");
 	int t = 1;
 //	cin >> t;
 	while (t--) process();
